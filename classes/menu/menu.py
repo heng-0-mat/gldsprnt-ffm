@@ -9,7 +9,8 @@ from menu_item import MenuItem
 class Menu():
 
     def __init__(self, screen, items):
-        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', 50)
+        self.font_size = screen.get_height() / (len(items) * 2)
+        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
         self.font_color = (255,255,255)
         self.screen = screen
         self.scr_width = self.screen.get_rect().width

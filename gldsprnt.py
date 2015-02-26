@@ -20,21 +20,26 @@ def start_race():
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((600, 480))
+    # Display Init
+    pygame.display.init()
+    display_info = pygame.display.Info()
+    # Screen festlegen (Fullscreen aktiviert)
+    screen = pygame.display.set_mode((display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
+    # Maus deaktivieren
+    pygame.mouse.set_visible(False)
     # Menüstruktur festlegen
-    main_menu_items = [('Rennen starten', start_race), ('Optionen', load_options_menu), ('Beenden', exit_program)]
+    main_menu_items = [('Rennen', start_race), ('Optionen', load_options_menu), ('Beenden', exit_program)]
     # Menü erzeugen
     main_menu = Menu(screen, main_menu_items)
-
-    pygame.display.set_caption('PyMenu vom Tim')
+    # Fenstertitel
+    pygame.display.set_caption('GLDSPRNT')
+    # erstes Menü laden
     main_menu.update()
-    pygame.display.flip()
 
     # Event loop
     while 1:
         event = pygame.event.wait()
         if event.type == QUIT:
-            print 'Will quit'
             return
         if event.type == pygame.KEYDOWN:
             main_menu.set_selected_item(event.key)
