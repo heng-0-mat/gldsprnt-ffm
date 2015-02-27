@@ -31,7 +31,7 @@ class Gldsprnt():
 
         # Hauptmenü festlegen
         main_menu_items = [
-            {'text': 'Rennen', 'action': self.load_pre_game},
+            {'text': 'Rennen', 'action': self.load_first_player_input},
             {'text': 'Optionen', 'action': self.load_options_menu},
             {'text': 'Beenden', 'action': sys.exit},
         ]
@@ -49,10 +49,13 @@ class Gldsprnt():
         # Aktives Menü festlegen
         self.active_menu = self.main_menu
 
+        # Array für aktive Spieler
+        self.current_players = []
+
         # PreGame für Player1 anlegen
-        first_pre_game_item = {'text': 'Name erster Fahrer', 'action': self.set_first_player}
+        first_pre_game_item = {'text': 'Name erster Fahrer', 'action': self.load_second_player_input}
         # PreGame für Player2 anlegen
-        second_pre_game_item = {'text': 'Name zweiter Fahrer', 'action': self.set_second_player}
+        second_pre_game_item = {'text': 'Name zweiter Fahrer', 'action': self.load_race}
 
         # Player1 PreGame erzeugen
         self.first_pre_game = PreGame(self.screen, first_pre_game_item)
@@ -75,15 +78,21 @@ class Gldsprnt():
         self.options_menu.current_item = 0
 
     def load_main_menu(self):
+        self.set_gamestate("MENU")
         self.active_menu = self.main_menu
 
-    def load_pre_game(self):
+    def load_first_player_input(self):
         self.set_gamestate("PREGAME")
+        self.active_pre_game = self.first_pre_game
+        if self.prev_gamestate != "PREGAME":
+            self.active_pre_game.input_value = ''
 
-    def set_first_player(self):
+    def load_second_player_input(self):
+        self.set_gamestate("PREGAME")
         self.active_pre_game = self.second_pre_game
+        self.active_pre_game.input_value = ''
 
-    def set_second_player(self):
+    def load_race(self):
         self.set_gamestate("GAME")
 
     def set_player_count(self):
@@ -106,6 +115,7 @@ class Gldsprnt():
                     self.active_menu.handle_keypress(event.key)
 
             self.active_menu.update(deltat)
+
         elif self.active_gamestate == "PREGAME":
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -113,9 +123,11 @@ class Gldsprnt():
                     return
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        self.set_gamestate(self.prev_gamestate)
+                        self.set_gamestate("MENU")
+                    else:
+                        self.active_pre_game.handle_keypress(event)
             self.active_pre_game.update(deltat)
-            # Namen eingeben
+
         elif self.active_gamestate == "GAME":
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -123,8 +135,9 @@ class Gldsprnt():
                     return
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        self.set_gamestate(self.prev_gamestate)
+                        self.set_gamestate("MENU")
             # Spiel
+
         elif self.active_gamestate == "HIGHSCORE":
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -133,7 +146,7 @@ class Gldsprnt():
             # Highscore
 
     def render(self, deltat):
-        self.screen.fill((0,0,0))
+        self.screen.fill((0, 0, 0))
 
         if self.active_gamestate == "MENU":
             self.active_menu.render(deltat)
