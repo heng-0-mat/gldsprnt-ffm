@@ -34,8 +34,8 @@ class Gldsprnt():
         ]
 
         options_menu_items = [
-            {'text': 'Anzahl Spieler', 'increment': {'min': 2, 'max': 12, 'value': 2}, 'action': self.set_player_count},
-            {'text': u'Rennlänge', 'increment': {'min': 100, 'max': 1000, 'value': 100, 'step': 10, 'format': '%s:%dm'}, 'action': self.set_race_length},
+            {'text': 'Anzahl Spieler', 'increment': {'min': 2, 'max': 12, 'value': 2, 'format':  u'%s: ‹%d›'}, 'action': self.set_player_count},
+            {'text': u'Rennlänge', 'increment': {'min': 100, 'max': 1000, 'value': 100, 'step': 10, 'format': u'%s: ‹%dm›'}, 'action': self.set_race_length},
             {'text': u'Zurück', 'action': self.load_main_menu},
         ]
 
