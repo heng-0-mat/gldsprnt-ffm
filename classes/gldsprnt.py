@@ -8,6 +8,7 @@ from pygame.locals import *
 
 from classes.menu.menu import Menu
 from classes.pre_game.pre_game import PreGame
+from classes.race.race import Race
 
 
 class Gldsprnt():
@@ -55,7 +56,7 @@ class Gldsprnt():
         # PreGame für Player1 anlegen
         first_pre_game_item = {'text': 'Name erster Fahrer', 'action': self.load_second_player_input}
         # PreGame für Player2 anlegen
-        second_pre_game_item = {'text': 'Name zweiter Fahrer', 'action': self.load_race}
+        second_pre_game_item = {'text': 'Name zweiter Fahrer', 'action': self.load_race_view}
 
         # Player1 PreGame erzeugen
         self.first_pre_game = PreGame(self.screen, first_pre_game_item)
@@ -63,6 +64,9 @@ class Gldsprnt():
         self.second_pre_game = PreGame(self.screen, second_pre_game_item)
         # Aktives PreGame festlegen
         self.active_pre_game = self.first_pre_game
+
+        # Race-Objekt erzeugen
+        self.race = None
 
         # Goldsprint Einstellungen
         self.player_count = 2
@@ -92,7 +96,9 @@ class Gldsprnt():
         self.active_pre_game = self.second_pre_game
         self.active_pre_game.input_value = ''
 
-    def load_race(self):
+    def load_race_view(self):
+        players = [self.first_pre_game.input_value, self.second_pre_game.input_value]
+        self.race = Race(self.screen, players)
         self.set_gamestate("GAME")
 
     def set_player_count(self):
@@ -110,7 +116,6 @@ class Gldsprnt():
             for event in pygame.event.get():
                 if event.type == QUIT:
                     sys.exit()
-                    return
                 if event.type == pygame.KEYDOWN:
                     self.active_menu.handle_keypress(event.key)
 
@@ -120,7 +125,6 @@ class Gldsprnt():
             for event in pygame.event.get():
                 if event.type == QUIT:
                     sys.exit()
-                    return
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.set_gamestate("MENU")
@@ -132,7 +136,6 @@ class Gldsprnt():
             for event in pygame.event.get():
                 if event.type == QUIT:
                     sys.exit()
-                    return
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.set_gamestate("MENU")
@@ -142,7 +145,6 @@ class Gldsprnt():
             for event in pygame.event.get():
                 if event.type == QUIT:
                     sys.exit()
-                    return
             # Highscore
 
     def render(self, deltat):
@@ -153,8 +155,8 @@ class Gldsprnt():
 
         elif self.active_gamestate == "PREGAME":
             self.active_pre_game.render(deltat)
-        #elif self.active_gamestate == "GAME":
-            # Spiel
+        elif self.active_gamestate == "GAME":
+            self.race.render(deltat)
         #elif self.active_gamestate == "HIGHSCORE":
             # Highscore
 
