@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/python
 
-import pygame
 import sys
+
+import pygame
 from pygame.locals import *
 
 from classes.menu.menu import Menu
+from classes.pre_game.pre_game import PreGame
 
 
 class Gldsprnt():
@@ -27,13 +29,13 @@ class Gldsprnt():
         pygame.display.set_caption('GLDSPRNT')
         # erstes Menü laden
 
-        # Menüstruktur festlegen
+        # Hauptmenü festlegen
         main_menu_items = [
-            {'text': 'Rennen', 'action': self.load_race},
+            {'text': 'Rennen', 'action': self.load_pre_game},
             {'text': 'Optionen', 'action': self.load_options_menu},
             {'text': 'Beenden', 'action': sys.exit},
         ]
-
+        # Optionsmenü festlegen
         options_menu_items = [
             {'text': 'Anzahl Spieler', 'increment': {'min': 2, 'max': 12, 'value': 2, 'format':  u'%s: ‹%d›'}, 'action': self.set_player_count},
             {'text': u'Rennlänge', 'increment': {'min': 100, 'max': 1000, 'value': 100, 'step': 10, 'format': u'%s: ‹%dm›'}, 'action': self.set_race_length},
@@ -44,17 +46,30 @@ class Gldsprnt():
         self.main_menu = Menu(self.screen, main_menu_items)
         self.options_menu = Menu(self.screen, options_menu_items)
 
+        # Aktives Menü festlegen
+        self.active_menu = self.main_menu
+
+        # PreGame für Player1 anlegen
+        first_pre_game_item = {'text': 'Name erster Fahrer', 'action': self.set_first_player}
+        # PreGame für Player2 anlegen
+        second_pre_game_item = {'text': 'Name zweiter Fahrer', 'action': self.set_second_player}
+
+        # Player1 PreGame erzeugen
+        self.first_pre_game = PreGame(self.screen, first_pre_game_item)
+        # Player2 PreGame erzeugen
+        self.second_pre_game = PreGame(self.screen, second_pre_game_item)
+        # Aktives PreGame festlegen
+        self.active_pre_game = self.first_pre_game
+
         # Goldsprint Einstellungen
         self.player_count = 2
         self.race_length = 100
-
-        # Aktives Menü festlegen
-        self.active_menu = self.main_menu
 
         # Aktiven Gamestate festlegen
         self.active_gamestate = "MENU"
         self.prev_gamestate = self.active_gamestate
 
+    # Action-Methoden
     def load_options_menu(self):
         self.active_menu = self.options_menu
         self.options_menu.current_item = 0
@@ -62,8 +77,14 @@ class Gldsprnt():
     def load_main_menu(self):
         self.active_menu = self.main_menu
 
-    def load_race(self):
+    def load_pre_game(self):
         self.set_gamestate("PREGAME")
+
+    def set_first_player(self):
+        self.active_pre_game = self.second_pre_game
+
+    def set_second_player(self):
+        self.set_gamestate("GAME")
 
     def set_player_count(self):
         self.player_count = self.active_menu.items[self.active_menu.current_item].increment_value
@@ -93,12 +114,16 @@ class Gldsprnt():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.set_gamestate(self.prev_gamestate)
+            self.active_pre_game.update(deltat)
             # Namen eingeben
         elif self.active_gamestate == "GAME":
             for event in pygame.event.get():
                 if event.type == QUIT:
                     sys.exit()
                     return
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.set_gamestate(self.prev_gamestate)
             # Spiel
         elif self.active_gamestate == "HIGHSCORE":
             for event in pygame.event.get():
@@ -113,8 +138,8 @@ class Gldsprnt():
         if self.active_gamestate == "MENU":
             self.active_menu.render(deltat)
 
-        #elif self.active_gamestate == "PREGAME":
-            # Namen eingeben
+        elif self.active_gamestate == "PREGAME":
+            self.active_pre_game.render(deltat)
         #elif self.active_gamestate == "GAME":
             # Spiel
         #elif self.active_gamestate == "HIGHSCORE":

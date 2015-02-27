@@ -17,8 +17,8 @@ class Menu():
         self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
         self.font_color = (255, 255, 255)
         self.screen = screen
-        self.scr_width = self.screen.get_rect().width
-        self.scr_height = self.screen.get_rect().height
+        self.screen_width = self.screen.get_rect().width
+        self.screen_height = self.screen.get_rect().height
         self.items = []
         self.current_item = 0
         self.animating = False
@@ -29,10 +29,10 @@ class Menu():
 
             # t_h: total height of text block
             t_h = len(items) * menu_item.height
-            pos_x = (self.scr_width / 2) - (menu_item.width / 2)
+            pos_x = (self.screen_width / 2) - (menu_item.width / 2)
             # This line includes a bug fix by Ariel (Thanks!)
             # Please check the comments section of pt. 2 for an explanation
-            pos_y = (self.scr_height / 2) - (t_h / 2) + ((index*2) + index * menu_item.height)
+            pos_y = (self.screen_height / 2) - (t_h / 2) + ((index*2) + index * menu_item.height)
 
             menu_item.set_position(pos_x, pos_y)
             self.items.append(menu_item)
@@ -50,9 +50,9 @@ class Menu():
     def render(self, deltat):
         # Farben zurücksetzen
         for item in self.items:
-            item.set_font_color((255,255,255))
+            item.set_font_color((255, 255, 255))
 
-        self.items[self.current_item].set_font_color((255,134,48))
+        self.items[self.current_item].set_font_color((255, 134, 48))
 
         # Menuitems rendern
         for item in self.items:
