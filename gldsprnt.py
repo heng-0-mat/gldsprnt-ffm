@@ -8,7 +8,7 @@ from pygame.locals import *
 
 from classes.gldsprnt import Gldsprnt
 
-
+clock = pygame.time.Clock()
 
 
 def main():
@@ -16,8 +16,10 @@ def main():
 
     # Event loop
     while 1:
-        instance.update()
+        deltat = clock.tick(60)
 
+        instance.update(deltat)
+        instance.render(deltat)
 
 
 if __name__ == '__main__':
