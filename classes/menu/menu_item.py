@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python
+# !/usr/bin/python
 
-import pygame
-from pygame.locals import *
 
 class MenuItem():
 
     def __init__(self, item, font, font_color, (pos_x, pos_y)=(0, 0)):
         self.item = item
         self.base_text = item["text"]
-        self.set_text(item["text"])
-
+        self.text = item["text"]
         self.incrementable = False
 
         if "increment" in self.item:

@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python
+# !/usr/bin/python
 
 import pygame
-import sys
-from pygame.locals import *
-
 
 from classes.gldsprnt import Gldsprnt
 
 clock = pygame.time.Clock()
 
-
 def main():
+    # Gldsprnt-Instanz erzeugen
     instance = Gldsprnt()
 
     # Event loop

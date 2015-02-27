@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python
+# !/usr/bin/python
 
 import pygame
 import time
 import math
-from pygame.locals import *
 
 from menu_item import MenuItem
+
 
 class Menu():
     # Dauer der Animation in Millisekunden
@@ -15,7 +15,7 @@ class Menu():
     def __init__(self, screen, items):
         self.font_size = screen.get_height() / (len(items) * 3)
         self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
-        self.font_color = (255,255,255)
+        self.font_color = (255, 255, 255)
         self.screen = screen
         self.scr_width = self.screen.get_rect().width
         self.scr_height = self.screen.get_rect().height
@@ -36,7 +36,6 @@ class Menu():
 
             menu_item.set_position(pos_x, pos_y)
             self.items.append(menu_item)
-
 
     def update(self, deltat):
         # Überprüft ob die Animation abgelaufen ist
@@ -67,8 +66,8 @@ class Menu():
             py = current_item.prev_position[1]
 
             # Animations Variablen
-            speed = 0.05 # Geschwindigkeit der Animation
-            swing_amount = 1.0 # Wie doll der Text wackelt :)
+            speed = 0.05  # Geschwindigkeit der Animation
+            swing_amount = 1.0  # Wie doll der Text wackelt :)
 
             # t = 0 bei Animationsstart
             t = time.time() * 1000.0 - self.animation_timer
@@ -105,10 +104,9 @@ class Menu():
             if key == pygame.K_RIGHT or key == pygame.K_LEFT:
                 self.items[self.current_item].item["action"]()
 
-
+        # Wird ausgeführt, wenn ein Item mit Enter oder Space getriggert wird
         if key == pygame.K_SPACE or key == pygame.K_RETURN:
             self.animating = True
-            #
             self.animation_timer = time.time() * 1000.0
             # Vorherige Position speichern, um diese nach der Animation zurückzusetzen
             self.items[self.current_item].prev_position = self.items[self.current_item].position

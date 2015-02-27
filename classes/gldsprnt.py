@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python
+# !/usr/bin/python
 
 import pygame
 import sys
 from pygame.locals import *
 
 from classes.menu.menu import Menu
+
 
 class Gldsprnt():
     def __init__(self):
