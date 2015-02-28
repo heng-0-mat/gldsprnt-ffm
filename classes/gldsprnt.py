@@ -21,7 +21,7 @@ class Gldsprnt():
         display_info = pygame.display.Info()
 
         # Screen festlegen (Fullscreen aktiviert)
-        self.screen = pygame.display.set_mode((800,600))#(display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((800, 600))#(display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
 
         # Maus deaktivieren
         pygame.mouse.set_visible(False)
@@ -98,7 +98,7 @@ class Gldsprnt():
 
     def load_race_view(self):
         players = [self.first_pre_game.input_value, self.second_pre_game.input_value]
-        self.race = Race(self.screen, players)
+        self.race = Race(self.screen, players, self.race_length)
         self.set_gamestate("GAME")
 
     def set_player_count(self):
@@ -139,7 +139,10 @@ class Gldsprnt():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.set_gamestate("MENU")
-            # Spiel
+                    # TODO: Zum Testen kann man mit Tasten spielen
+                    else:
+                        self.race.handle_input(event)
+            self.race.update(deltat)
 
         elif self.active_gamestate == "HIGHSCORE":
             for event in pygame.event.get():
