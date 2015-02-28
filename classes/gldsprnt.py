@@ -21,7 +21,7 @@ class Gldsprnt():
         display_info = pygame.display.Info()
 
         # Screen festlegen (Fullscreen aktiviert)
-        self.screen = pygame.display.set_mode((800, 600))#(display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
 
         # Maus deaktivieren
         pygame.mouse.set_visible(False)

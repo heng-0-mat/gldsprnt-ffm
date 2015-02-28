@@ -28,26 +28,26 @@ class Race():
         self.label_first_player = self.font.render(self.players[0], 1, self.color_first_player)
         self.label_first_player_position = (
             (self.screen_width / 2) - (self.get_element_width(self.label_first_player) / 2),
-            30
+            self.screen_height / 40
         )
         self.label_second_player = self.font.render(self.players[1], 1, self.color_second_player)
         self.label_second_player_position = (
             (self.screen_width / 2) - (self.get_element_width(self.label_second_player) / 2),
-            self.screen_height - self.get_element_width(self.label_second_player)
+            self.screen_height - self.get_element_height(self.label_second_player) - self.screen_height / 40
         )
 
         # Progress-Bars für die Spieler
         self.progress_bar_first_player = Progress(
             self.screen,
             self.color_first_player,
-            self.screen_width / 20,
-            self.screen_height / 2 - self.screen_height / 10 - 20
+            self.screen_width / 80,
+            self.screen_height / 2 - self.screen_height / 10 - self.screen_height / 40
         )
         self.progress_bar_second_player = Progress(
             self.screen,
             self.color_second_player,
-            self.screen_width / 20,
-            self.screen_height / 2 + 20
+            self.screen_width / 80,
+            self.screen_height / 2 + self.screen_height / 40
         )
 
         # Progress der Spieler

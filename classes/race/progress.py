@@ -19,7 +19,7 @@ class Progress():
         self.progress = 0.0
 
         # Progress-Bar Größe
-        self.full_width = self.screen_width - self.screen_width / 10
+        self.full_width = self.screen_width - self.screen_width / 40
         self.height = self.screen_height / 10
 
         # Progress-Bar Position
