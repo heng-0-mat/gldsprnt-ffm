@@ -6,7 +6,9 @@ class Label():
 
     def __init__(self, text, font, font_color, (pos_x, pos_y)=(0, 0)):
         self.text = text
-        self.label = font.render(self.text, 1, font_color)
+        self.font = font
+        self.font_color = font_color
+        self.label = self.font.render(self.text, 1, self.font_color)
         self.width = self.label.get_rect().width
         self.height = self.label.get_rect().height
         self.dimensions = (self.width, self.height)
@@ -21,3 +23,4 @@ class Label():
 
     def set_text(self, text):
         self.text = text
+        self.label = self.font.render(self.text, 1, self.font_color)

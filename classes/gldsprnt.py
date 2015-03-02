@@ -21,7 +21,7 @@ class Gldsprnt():
         display_info = pygame.display.Info()
 
         # Screen festlegen (Fullscreen aktiviert)
-        self.screen = pygame.display.set_mode((800, 600))#(display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
 
         # Maus deaktivieren
         pygame.mouse.set_visible(False)
@@ -40,6 +40,7 @@ class Gldsprnt():
         options_menu_items = [
             {'text': 'Anzahl Spieler', 'increment': {'min': 2, 'max': 12, 'value': 2, 'format':  u'%s: ‹%d›'}, 'action': self.set_player_count},
             {'text': u'Rennlänge', 'increment': {'min': 100, 'max': 1000, 'value': 100, 'step': 10, 'format': u'%s: ‹%dm›'}, 'action': self.set_race_length},
+            {'text': 'Rollenumfang', 'increment': {'min': 20.0, 'max': 70.0, 'value': 32.0, 'step': 0.1, 'format': u'%s: ‹%0.1fcm›'}, 'action': self.set_diameter},
             {'text': u'Zurück', 'action': self.load_main_menu},
         ]
 
@@ -71,6 +72,7 @@ class Gldsprnt():
         # Goldsprint Einstellungen
         self.player_count = 2
         self.race_length = 100
+        self.diameter = 32
 
         # Aktiven Gamestate festlegen
         self.active_gamestate = "MENU"
@@ -98,7 +100,7 @@ class Gldsprnt():
 
     def load_race_view(self):
         players = [self.first_pre_game.input_value, self.second_pre_game.input_value]
-        self.race = Race(self.screen, players, self.race_length)
+        self.race = Race(self.screen, players, self.race_length, self.diameter)
         self.set_gamestate("GAME")
 
     def set_player_count(self):
@@ -106,6 +108,9 @@ class Gldsprnt():
 
     def set_race_length(self):
         self.race_length = self.active_menu.items[self.active_menu.current_item].increment_value
+
+    def set_diameter(self):
+        self.diameter = self.active_menu.items[self.active_menu.current_item].increment_value
 
     def set_gamestate(self, gamestate):
         self.prev_gamestate = self.active_gamestate

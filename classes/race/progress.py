@@ -19,30 +19,26 @@ class Progress():
         self.progress = 0.0
 
         # Progress-Bar Größe
-        self.full_width = self.screen_width - self.screen_width / 40
-        self.height = self.screen_height / 10
+        self.full_width = self.screen_width
+        self.height = self.screen_height/2
 
         # Progress-Bar Position
         self.pos_x = pos_x
         self.pos_y = pos_y
 
         # Progress-Bar erstellen
-        self.bar = (self.pos_x + 2, self.pos_y + 2, self.current_width(), self.height - 4)
-
-        # Prgress-Bar Container
-        self.container = (self.pos_x, self.pos_y, self.full_width, self.height)
+        self.bar = (self.pos_x, self.pos_y, self.current_width(), self.height)
 
     def set_progress(self, progress):
         self.progress = progress
-        self.bar = (self.pos_x + 2, self.pos_y + 2, self.current_width(), self.height - 4)
+        self.bar = (self.pos_x, self.pos_y, self.current_width(), self.height)
 
     def current_width(self):
         current_width = 0
         if self.progress > 0.0:
-            current_width = (self.full_width * self.progress) - 4
+            current_width = (self.full_width * self.progress)
         return current_width
 
     def render(self):
-        pygame.draw.rect(self.screen, (255, 255, 255), self.container, 0)
         if self.current_width() > 0:
             pygame.draw.rect(self.screen, self.bg_color, self.bar, 0)

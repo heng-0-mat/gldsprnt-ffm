@@ -2,14 +2,16 @@
 # !/usr/bin/python
 
 import pygame
-
+import time
+from classes.race.player import Player
 from classes.race.label import Label
-from classes.race.progress import Progress
+
+WHITE = (255, 255, 255)
 
 
 class Race():
 
-    def __init__(self, screen, players, race_length):
+    def __init__(self, screen, players, race_length, diameter):
         self.race_status = 'READY'
 
         self.screen = screen
@@ -21,74 +23,50 @@ class Race():
         self.color_second_player = (88, 89, 178)
         self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
 
-        self.players = players
-
         self.race_length = race_length
-        self.event_count_first_player = 0
-        self.event_count_second_player = 0
+        self.diameter = diameter
 
-        # Namenslabel der Spieler
-        self.label_first_player = Label(self.players[0], self.font, self.color_first_player)
-        self.label_first_player.set_position(
-            (self.screen_width / 2) - (self.get_element_width(self.label_first_player.label) / 2),
-            self.screen_height / 40
+        self.players = []
+        self.players.append(
+            Player(
+                self.screen,
+                players[0],
+                self.color_first_player,
+                0,
+                0,
+                self.race_length,
+                self.diameter
+            )
         )
-
-        self.label_second_player = Label(self.players[1], self.font, self.color_second_player)
-        self.label_second_player.set_position(
-            (self.screen_width / 2) - (self.get_element_width(self.label_second_player.label) / 2),
-            self.screen_height - self.get_element_height(self.label_second_player.label) - self.screen_height / 40
+        self.players.append(
+            Player(
+                self.screen,
+                players[1],
+                self.color_second_player,
+                0,
+                self.screen_height / 2,
+                self.race_length,
+                self.diameter
+            )
         )
-
-        # Progress-Bars für die Spieler
-        self.progress_bar_first_player = Progress(
-            self.screen,
-            self.color_first_player,
-            self.screen_width / 80,
-            self.screen_height / 2 - self.screen_height / 10 - self.screen_height / 20
-        )
-        self.progress_bar_second_player = Progress(
-            self.screen,
-            self.color_second_player,
-            self.screen_width / 80,
-            self.screen_height / 2 + self.screen_height / 20
-        )
-
-        # Progress der Spieler
-        self.progress_first_player = 0.0
-        self.progress_second_player = 0.0
 
         # Informations-Label
-        self.information_label = Label(u'Return zum Starten …', self.font, (255, 255, 255))
+        self.information_label = Label(u'Return zum Starten …', self.font, WHITE)
         self.information_label.set_position(
-            (self.screen_width / 2) - (self.get_element_width(self.information_label.label) / 2),
-            self.screen_height / 2 - (self.get_element_height(self.information_label.label) / 2)
+            (self.screen_width / 2) - (self.information_label.width / 2),
+            (self.screen_height - self.information_label.height)
         )
 
     def update(self, deltat):
-        # if self.race_status == 'PRERACE':
-
-        # if self.race_status == 'COUNTDOWN':
-
-        if self.race_status == 'RUNNING':
-            # Update Progress
-            self.progress_bar_first_player.set_progress(self.progress_first_player)
-            self.progress_bar_second_player.set_progress(self.progress_second_player)
-
-        # if self.race_status == 'FINISHED':
+        for player in self.players:
+            player.update()
 
     def render(self, deltat):
-        # Labels
-        self.screen.blit(self.label_first_player.label, self.label_first_player.position)
-        self.screen.blit(self.label_second_player.label, self.label_second_player.position)
-
-        if self.race_status == 'READY':
-            self.screen.blit(self.information_label.label, self.information_label.position)
-
-        if self.race_status == 'RUNNING':
-            # Progress-Bars
-            self.progress_bar_first_player.render()
-            self.progress_bar_second_player.render()
+        # Player rendern
+        for player in self.players:
+            player.render()
+        # Info-Label rendern
+        self.screen.blit(self.information_label.label, self.information_label.position)
 
     def get_element_height(self, element):
         return element.get_rect().height
@@ -103,16 +81,13 @@ class Race():
         if self.race_status == 'READY':
             if event.key == pygame.K_RETURN:
                 self.information_label.set_text('')
-                self.information_label.set_position(
-                    (self.screen_width / 2) - (self.get_element_width(self.information_label.label) / 2),
-                    self.screen_height / 2 - (self.get_element_height(self.information_label.label) / 2)
-                )
                 self.set_race_status('RUNNING')
+                # Startzeiten an Player übermitteln
+                for player in self.players:
+                    player.running = True
+                    player.set_start_time(time.time())
 
-        if self.race_status == 'RUNNING':
-            if event.key == pygame.K_a:
-                self.event_count_first_player = max(0, min(self.event_count_first_player + 1, self.race_length))
-                self.progress_first_player = self.event_count_first_player * 1.0 / self.race_length
-            elif event.key == pygame.K_b:
-                self.event_count_second_player = max(0, min(self.event_count_second_player + 1, self.race_length))
-                self.progress_second_player = self.event_count_second_player * 1.0 / self.race_length
+        if event.key == pygame.K_a:
+            self.players[0].handle_progress()
+        elif event.key == pygame.K_b:
+            self.players[1].handle_progress()
