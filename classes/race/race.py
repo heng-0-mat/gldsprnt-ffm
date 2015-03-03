@@ -1,18 +1,22 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/python
 
-import pygame
 import time
+
+import pygame
+
 from classes.race.player import Player
-from classes.race.label import Label
+from classes.label import Label
+
 
 WHITE = (255, 255, 255)
 
 
 class Race():
 
-    def __init__(self, screen, players, race_length, diameter):
+    def __init__(self, screen, players, race_length, diameter, actions):
         self.race_status = 'READY'
+        self.actions = actions
 
         self.screen = screen
         self.screen_width = self.screen.get_rect().width
@@ -60,6 +64,8 @@ class Race():
     def update(self, deltat):
         for player in self.players:
             player.update()
+        if self.players[0].finished and self.players[1].finished:
+            self.set_race_status('FINISHED')
 
     def render(self, deltat):
         # Player rendern
@@ -87,7 +93,13 @@ class Race():
                     player.running = True
                     player.set_start_time(time.time())
 
+        if self.race_status == 'FINISHED':
+            if event.key == pygame.K_RETURN:
+                self.actions['success']()
+
         if event.key == pygame.K_a:
             self.players[0].handle_progress()
         elif event.key == pygame.K_b:
             self.players[1].handle_progress()
+        elif event.key == pygame.K_ESCAPE:
+            self.actions['cancel']()

@@ -9,6 +9,7 @@ from pygame.locals import *
 from classes.menu.menu import Menu
 from classes.pre_game.pre_game import PreGame
 from classes.race.race import Race
+from classes.highscore import Highscore
 
 
 class Gldsprnt():
@@ -21,7 +22,7 @@ class Gldsprnt():
         display_info = pygame.display.Info()
 
         # Screen festlegen (Fullscreen aktiviert)
-        self.screen = pygame.display.set_mode((display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((800,600))#(display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
 
         # Maus deaktivieren
         pygame.mouse.set_visible(False)
@@ -33,6 +34,7 @@ class Gldsprnt():
         # Hauptmenü festlegen
         main_menu_items = [
             {'text': 'Rennen', 'action': self.load_first_player_input},
+            {'text': 'Highscore', 'action': self.load_highscore},
             {'text': 'Optionen', 'action': self.load_options_menu},
             {'text': 'Beenden', 'action': sys.exit},
         ]
@@ -41,8 +43,11 @@ class Gldsprnt():
             {'text': 'Anzahl Spieler', 'increment': {'min': 2, 'max': 12, 'value': 2, 'format':  u'%s: ‹%d›'}, 'action': self.set_player_count},
             {'text': u'Rennlänge', 'increment': {'min': 100, 'max': 1000, 'value': 100, 'step': 10, 'format': u'%s: ‹%dm›'}, 'action': self.set_race_length},
             {'text': 'Rollenumfang', 'increment': {'min': 20.0, 'max': 70.0, 'value': 32.0, 'step': 0.1, 'format': u'%s: ‹%0.1fcm›'}, 'action': self.set_diameter},
-            {'text': u'Zurück', 'action': self.load_main_menu},
+            {'text': u'Zurück', 'action': self.load_main_menu}
         ]
+
+        # Dictionary für alle Ergebnisse
+        self.results = {}
 
         # Menü erzeugen
         self.main_menu = Menu(self.screen, main_menu_items)
@@ -68,6 +73,9 @@ class Gldsprnt():
 
         # Race-Objekt erzeugen
         self.race = None
+
+        # Highscore-Objekt erzeugen
+        self.highscore = Highscore(self.screen, self.results)
 
         # Goldsprint Einstellungen
         self.player_count = 2
@@ -100,8 +108,12 @@ class Gldsprnt():
 
     def load_race_view(self):
         players = [self.first_pre_game.input_value, self.second_pre_game.input_value]
-        self.race = Race(self.screen, players, self.race_length, self.diameter)
+        self.race = Race(self.screen, players, self.race_length, self.diameter, {'cancel': self.load_main_menu, 'success': self.commit_results})
         self.set_gamestate("GAME")
+
+    def load_highscore(self):
+        self.highscore = Highscore(self.screen, self.results)
+        self.set_gamestate('HIGHSCORE')
 
     def set_player_count(self):
         self.player_count = self.active_menu.items[self.active_menu.current_item].increment_value
@@ -111,6 +123,12 @@ class Gldsprnt():
 
     def set_diameter(self):
         self.diameter = self.active_menu.items[self.active_menu.current_item].increment_value
+
+    def commit_results(self):
+        for player in self.race.players:
+            self.results.update({player.name: {'time': player.finish_time}})
+        self.load_highscore()
+
 
     def set_gamestate(self, gamestate):
         self.prev_gamestate = self.active_gamestate
@@ -142,18 +160,17 @@ class Gldsprnt():
                 if event.type == QUIT:
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        self.set_gamestate("MENU")
                     # TODO: Zum Testen kann man mit Tasten spielen
-                    else:
-                        self.race.handle_input(event)
+                    self.race.handle_input(event)
             self.race.update(deltat)
 
         elif self.active_gamestate == "HIGHSCORE":
             for event in pygame.event.get():
                 if event.type == QUIT:
                     sys.exit()
-            # Highscore
+                elif event.type == KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.set_gamestate('MENU')
 
     def render(self, deltat):
         self.screen.fill((0, 0, 0))
@@ -165,7 +182,7 @@ class Gldsprnt():
             self.active_pre_game.render(deltat)
         elif self.active_gamestate == "GAME":
             self.race.render(deltat)
-        #elif self.active_gamestate == "HIGHSCORE":
-            # Highscore
+        elif self.active_gamestate == "HIGHSCORE":
+            self.highscore.render(deltat)
 
         pygame.display.flip()

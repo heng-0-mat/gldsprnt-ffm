@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/python
 
-import pygame
 import time
 from math import modf
-from classes.race.label import Label
+
+import pygame
+
+from classes.label import Label
 from classes.race.progress import Progress
 from classes.race.speedo import Speedo
 
@@ -28,6 +30,7 @@ class Player():
 
         self.event_count = 0
         self.running = False
+        self.finished = False
         self.start_time = time.time()
         self.current_time_text = self.get_current_time()
         self.finish_time = None
@@ -38,8 +41,6 @@ class Player():
             self.pos_x + self.screen_width / 80,
             self.pos_y
         )
-
-
 
         # Time
         self.time_label = Label(self.current_time_text, self.font, (255, 255, 255))
@@ -78,9 +79,9 @@ class Player():
             else:
                 self.finish_time = self.get_current_time()
                 self.running = False
+                self.finished = True
                 self.time_label.set_text(self.finish_time)
         self.speedo.set_current_speed()
-
 
     def set_start_time(self, start_time):
         self.start_time = start_time
@@ -89,4 +90,4 @@ class Player():
         timer = time.time() - self.start_time
         seconds = int(timer)
         milli_seconds = int(modf(timer)[0] * 100)
-        return ('%0d,%02ds' % (seconds, milli_seconds)).rjust(7)
+        return ('%0d.%02ds' % (seconds, milli_seconds)).rjust(7)

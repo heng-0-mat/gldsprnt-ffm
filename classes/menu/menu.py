@@ -13,12 +13,14 @@ class Menu():
     ANIMATION_DURATION = 250.0
 
     def __init__(self, screen, items):
-        self.font_size = screen.get_height() / (len(items) * 3)
-        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
         self.font_color = (255, 255, 255)
         self.screen = screen
         self.screen_width = self.screen.get_rect().width
         self.screen_height = self.screen.get_rect().height
+        self.font_size = screen.get_height() / 10
+        if self.font_size * len(items) > self.screen_height:
+            self.font_size = self.screen_height / (len(items) + 1)
+        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
         self.items = []
         self.current_item = 0
         self.animating = False

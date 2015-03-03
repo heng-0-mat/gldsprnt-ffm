@@ -2,7 +2,8 @@
 # !/usr/bin/python
 
 import time
-from classes.race.label import Label
+
+from classes.label import Label
 
 
 class Speedo():
@@ -13,10 +14,11 @@ class Speedo():
         self.screen_width = screen.get_rect().width
         self.screen_height = screen.get_rect().height
 
-        self.format = '%0.2fkm/h'
+        self.format = '%12.2fkm/h'
         self.value = 0.0
         self.label_text = self.format % self.value
-        self.pos_x = 0
+        self.pos_x = pos_x
+        self.pos_y = pos_y
         self.font_size = self.screen_height / 9
         self.font = font
 
@@ -25,8 +27,8 @@ class Speedo():
 
         self.label = Label(self.format % 0.0, self.font, (255, 255, 255))
         self.label.set_position(
-            pos_x + self.screen_width - self.label.width,
-            pos_y
+            self.pos_x + self.screen_width - self.label.width,
+            self.pos_y
         )
 
     def update(self):
@@ -35,13 +37,9 @@ class Speedo():
     def render(self):
         self.screen.blit(self.label.label, self.label.position)
 
-    def set_value(self, value):
-        self.value = value * 1.0
-        self.label_text = self.format % self.value
-
     def get_current_speed(self):
         current_time = time.time()
-        value = self.format % 0.0
+        value = (self.format % 0.0)
         if self.prev_time is not None and current_time - self.prev_time < 1:
             value = self.format % self.value
         return value

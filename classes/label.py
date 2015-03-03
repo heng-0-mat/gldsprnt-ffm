@@ -24,3 +24,5 @@ class Label():
     def set_text(self, text):
         self.text = text
         self.label = self.font.render(self.text, 1, self.font_color)
+        self.width = self.label.get_rect().width
+        self.height = self.label.get_rect().height
