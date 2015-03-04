@@ -74,12 +74,6 @@ class Race():
         # Info-Label rendern
         self.screen.blit(self.information_label.label, self.information_label.position)
 
-    def get_element_height(self, element):
-        return element.get_rect().height
-
-    def get_element_width(self, element):
-        return element.get_rect().width
-
     def set_race_status(self, status):
         self.race_status = status
 
