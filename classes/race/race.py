@@ -6,6 +6,7 @@ import time
 import pygame
 
 from classes.race.player import Player
+from classes.race.countdown import Countdown
 from classes.label import Label
 
 
@@ -61,11 +62,17 @@ class Race():
             (self.screen_height - self.information_label.height)
         )
 
+        # Countdown
+        self.countdown = Countdown(self.screen, {'success': self.start})
+
     def update(self, deltat):
         for player in self.players:
             player.update()
-        if self.players[0].finished and self.players[1].finished:
-            self.set_race_status('FINISHED')
+        if self.race_status == 'COUNTDOWN':
+            self.countdown.update(deltat)
+        if self.race_status == 'RUNNING':
+            if self.players[0].finished and self.players[1].finished:
+                self.set_race_status('FINISHED')
 
     def render(self, deltat):
         # Player rendern
@@ -73,6 +80,8 @@ class Race():
             player.render()
         # Info-Label rendern
         self.screen.blit(self.information_label.label, self.information_label.position)
+        if self.race_status == 'COUNTDOWN':
+            self.countdown.render(deltat)
 
     def set_race_status(self, status):
         self.race_status = status
@@ -81,12 +90,8 @@ class Race():
         if self.race_status == 'READY':
             if event.key == pygame.K_RETURN:
                 self.information_label.set_text('')
-                self.set_race_status('RUNNING')
-                # Startzeiten an Player übermitteln
-                for player in self.players:
-                    player.running = True
-                    player.set_start_time(time.time())
-
+                self.set_race_status('COUNTDOWN')
+                self.countdown.start()
         if self.race_status == 'FINISHED':
             if event.key == pygame.K_RETURN:
                 self.actions['success']()
@@ -97,3 +102,10 @@ class Race():
             self.players[1].handle_progress()
         elif event.key == pygame.K_ESCAPE:
             self.actions['cancel']()
+
+    def start(self):
+        self.set_race_status('RUNNING')
+        # Startzeiten an Player übermitteln
+        for player in self.players:
+            player.running = True
+            player.set_start_time(time.time())
