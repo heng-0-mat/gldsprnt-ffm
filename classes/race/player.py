@@ -46,7 +46,7 @@ class Player():
         # Time
         self.time_label = Label(self.current_time_text, self.font, (255, 255, 255))
         self.time_label.set_position(
-            self.pos_x + self.screen_width - self.time_label.width,
+            self.pos_x + self.screen_width - self.time_label.width - self.screen_width / 80,
             self.pos_y + self.time_label.height
         )
 
@@ -75,7 +75,7 @@ class Player():
 
     def handle_progress(self):
         if self.running:
-            if self.event_count < self.race_length:
+            if self.event_count < self.full_ticks:
                 self.event_count += 1
             else:
                 self.finish_time = self.get_current_time()

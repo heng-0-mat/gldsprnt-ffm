@@ -22,7 +22,7 @@ class Gldsprnt():
         display_info = pygame.display.Info()
 
         # Screen festlegen (Fullscreen aktiviert)
-        self.screen = pygame.display.set_mode((800,600))#(display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((1024, 768))#(display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
 
         # Maus deaktivieren
         pygame.mouse.set_visible(False)
@@ -41,7 +41,7 @@ class Gldsprnt():
         # Optionsmenü festlegen
         options_menu_items = [
             {'text': 'Anzahl Spieler', 'increment': {'min': 2, 'max': 12, 'value': 2, 'format':  u'%s: ‹%d›'}, 'action': self.set_player_count},
-            {'text': u'Rennlänge', 'increment': {'min': 100, 'max': 1000, 'value': 100, 'step': 10, 'format': u'%s: ‹%dm›'}, 'action': self.set_race_length},
+            {'text': u'Rennlänge', 'increment': {'min': 10, 'max': 1000, 'value': 10, 'step': 10, 'format': u'%s: ‹%dm›'}, 'action': self.set_race_length},
             {'text': 'Rollenumfang', 'increment': {'min': 20.0, 'max': 70.0, 'value': 32.0, 'step': 0.1, 'format': u'%s: ‹%0.1fcm›'}, 'action': self.set_diameter},
             {'text': u'Zurück', 'action': self.load_main_menu}
         ]

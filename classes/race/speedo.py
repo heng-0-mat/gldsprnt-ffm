@@ -27,7 +27,7 @@ class Speedo():
 
         self.label = Label(self.format % 0.0, self.font, (255, 255, 255))
         self.label.set_position(
-            self.pos_x + self.screen_width - self.label.width,
+            self.pos_x + self.screen_width - self.label.width - self.screen_width / 80,
             self.pos_y
         )
 
