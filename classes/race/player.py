@@ -29,6 +29,7 @@ class Player():
         self.pos_y = pos_y
 
         self.event_count = 0
+        self.full_ticks = (self.race_length * 100) / self.diameter
         self.running = False
         self.finished = False
         self.start_time = time.time()
@@ -61,7 +62,7 @@ class Player():
         self.speedo = Speedo(self.screen, self.pos_x, self.pos_y, self.font, self.diameter)
 
     def update(self):
-        self.progress_bar.set_progress(self.event_count * 1.0 / self.race_length)
+        self.progress_bar.set_progress(self.event_count * 1.0 / self.full_ticks)
         if self.running:
             self.time_label.set_text(self.get_current_time())
         self.speedo.update()
