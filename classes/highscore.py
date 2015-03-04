@@ -14,8 +14,6 @@ class Highscore():
         self.screen_height = self.screen.get_rect().height
 
         self.font_size = self.screen_height / 9
-        self.color_first_player = (255, 85, 0)
-        self.color_second_player = (88, 89, 178)
         self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
         self.format = '%d. %s: %s'
 
