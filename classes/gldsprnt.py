@@ -173,7 +173,7 @@ class Gldsprnt():
                         self.set_gamestate('MENU')
 
     def render(self, deltat):
-        self.screen.fill((0, 0, 0))
+        self.screen.fill((68, 68, 68))
 
         if self.active_gamestate == "MENU":
             self.active_menu.render(deltat)

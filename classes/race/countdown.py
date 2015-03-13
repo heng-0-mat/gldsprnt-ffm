@@ -4,9 +4,7 @@
 import pygame
 import time
 
-RED = (255, 0, 0)
-YELLOW = (255, 255, 0)
-GREEN = (0, 255, 0)
+from classes.label import Label
 
 
 class Countdown():
@@ -16,16 +14,26 @@ class Countdown():
         self.screen = screen
         self.screen_width = screen.get_rect().width
         self.screen_height = screen.get_rect().height
+        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.screen_height)
         self.start_time = None
         self.running = False
-        self.current_color = RED
+        self.color = (255, 134, 48)
         self.actions = actions
-        self.light_radius = self.screen_height / 6
-        self.light_position = (self.screen_width / 2, self.screen_height / 2 - 2 * self.light_radius)
+        self.value = 3
+        self.label = Label(str(self.value), self.font, self.color)
+        self.label.set_position(
+            self.screen_width / 2 - self.label.width / 2,
+            self.screen_height / 2 - self.label.height / 2
+        )
 
     def start(self):
+        self.value = 3
+        self.label.set_text(str(self.value))
         self.start_time = time.time()
         self.running = True
+
+    def stop(self):
+        self.running = False
 
     def update(self, deltat):
         if self.running:
@@ -34,16 +42,11 @@ class Countdown():
                 self.running = False
                 self.actions['success']()
             elif passed_time > 2:
-                self.current_color = GREEN
-                self.light_position = (self.screen_width / 2, self.screen_height / 2 + 2 * self.light_radius)
+                self.value = 1
+                self.label.set_text(str(self.value))
             elif passed_time > 1:
-                self.current_color = YELLOW
-                self.light_position = (self.screen_width / 2, self.screen_height / 2)
+                self.value = 2
+                self.label.set_text(str(self.value))
 
     def render(self, deltat):
-        pygame.draw.circle(
-            self.screen,
-            self.current_color,
-            self.light_position,
-            self.light_radius
-        )
+        self.screen.blit(self.label.label, self.label.position)
