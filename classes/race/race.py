@@ -25,7 +25,7 @@ class Race():
         self.color_second_player = (88, 89, 178)
         self.information_color = (255, 134, 48)
         self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
-        self.information_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size / 2)
+        self.information_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size * 3 / 7)
 
         self.race_length = race_length
         self.diameter = diameter

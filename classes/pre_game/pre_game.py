@@ -5,7 +5,7 @@ import pygame
 from classes.pre_game.pre_game_item import PreGameItem
 
 class PreGame():
-    def __init__(self, screen, actions):
+    def __init__(self, screen, actions, players):
         # Screen für Instanz definieren
         self.screen = screen
         self.screen_width = self.screen.get_rect().width
@@ -13,6 +13,12 @@ class PreGame():
 
         # Actions
         self.actions = actions
+
+        # vorhandene Player-Namen
+        self.recent_players = players
+
+        # Validierungsfehler
+        self.validation_error = False
 
         # PreGameItems
         self.pre_game_items = [
@@ -22,13 +28,15 @@ class PreGame():
 
         # Aktiven Input festlegen (default: 0 => entspricht erstem Item)
         self.active_input = 0
+        self.pre_game_items[self.active_input].activate_input()
         self.active_color = (255, 134, 48)
         self.active_cursor = '_'
 
-
     def update(self, deltat):
+        self.validate_names()
         for pre_game_item in self.pre_game_items:
             pre_game_item.input.set_font_color((255, 255, 255))
+            pre_game_item.update(deltat)
         self.pre_game_items[self.active_input].input.set_font_color(self.active_color)
 
     def render(self, deltat):
@@ -37,11 +45,12 @@ class PreGame():
 
     def handle_keypress(self, event):
         if event.unicode.isalpha():
-            self.input_value += event.unicode
+            self.pre_game_items[self.active_input].append_key(event.unicode)
         elif event.key == pygame.K_BACKSPACE:
-            self.delete_last_input_character()
+            self.pre_game_items[self.active_input].delete_last_char()
         elif event.key == pygame.K_RETURN:
-            self.actions['success']()
+            if not self.validation_error:
+                self.actions['success']()
         elif event.key == pygame.K_ESCAPE:
             self.actions['cancel']()
         elif event.key == pygame.K_DOWN:
@@ -49,20 +58,36 @@ class PreGame():
         elif event.key == pygame.K_UP:
             self.decrement_active_item()
 
-    def delete_last_input_character(self):
-        self.input_value = self.input_value[:-1]
-
     def set_active_item(self, input_number):
         self.active_input = input_number
 
     def increment_active_item(self):
+        self.pre_game_items[self.active_input].deactivate_input()
         if self.active_input < len(self.pre_game_items) - 1:
             self.active_input += 1
         else:
             self.active_input = 0
+        self.pre_game_items[self.active_input].activate_input()
 
     def decrement_active_item(self):
+        self.pre_game_items[self.active_input].deactivate_input()
         if self.active_input > 0:
             self.active_input -= 1
         else:
             self.active_input = len(self.pre_game_items) - 1
+        self.pre_game_items[self.active_input].activate_input()
+
+    def validate_names(self):
+        error = False
+        for player_name in self.pre_game_items:
+            if player_name.input_text.lower() in self.recent_players:
+                player_name.set_error_text('Name schon vorhanden.')
+                error = True
+            else:
+                player_name.set_error_text('')
+            if player_name.input_text == '':
+                error = True
+        if error:
+            self.validation_error = True
+        else:
+            self.validation_error = False

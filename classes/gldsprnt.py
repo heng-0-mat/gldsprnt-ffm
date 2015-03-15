@@ -56,9 +56,6 @@ class Gldsprnt():
         # Aktives Menü festlegen
         self.active_menu = self.main_menu
 
-        # Array für aktive Spieler
-        self.current_players = []
-
         # PreGame-Objekt erzeugen
         self.pre_game = None
 
@@ -88,7 +85,7 @@ class Gldsprnt():
 
     def load_pre_game(self):
         self.set_gamestate("PREGAME")
-        self.pre_game = PreGame(self.screen, {'success': self.load_race_view, 'cancel': self.load_main_menu})
+        self.pre_game = PreGame(self.screen, {'success': self.load_race_view, 'cancel': self.load_main_menu}, self.results)
 
     def load_race_view(self):
         players = [
