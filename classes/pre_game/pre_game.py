@@ -2,48 +2,38 @@
 # !/usr/bin/python
 
 import pygame
-
+from classes.pre_game.pre_game_item import PreGameItem
 
 class PreGame():
-    def __init__(self, screen, pre_game_item):
-
+    def __init__(self, screen, actions):
         # Screen für Instanz definieren
         self.screen = screen
         self.screen_width = self.screen.get_rect().width
         self.screen_height = self.screen.get_rect().height
-        # Action
-        self.action = pre_game_item['action']
-        # Label
-        self.text = pre_game_item['text']
-        # Input-Value
-        self.input_value = ''
-        self.input_value_cursor = '_'
-        self.show_cursor = False
-        # Fehler-Text
-        self.error_message = ''
-        # Font
-        self.font_size = self.screen.get_height() / 9
-        self.font_color = (255, 255, 255)
-        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
-        self.label = self.font.render(self.text, 1, self.font_color)
-        self.value_label = self.font.render(self.input_value + self.input_value_cursor, 1, (255, 134, 48))
-        self.error_label = self.font.render(self.error_message, 1, (255, 0, 0))
 
-        # Positionierung der drei Elemente
-        self.total_height = self.get_element_height(self.label) + self.get_element_height(self.value_label) + self.get_element_height(self.error_label)
-        self.label_position = self.get_position(self.label, 0)
-        self.value_label_position = self.get_position(self.value_label, 1)
-        self.error_label_position = self.get_position(self.error_label, 2)
+        # Actions
+        self.actions = actions
+
+        # PreGameItems
+        self.pre_game_items = [
+            PreGameItem(self.screen, {'description': 'Spieler 1:'}, 0, 0),
+            PreGameItem(self.screen, {'description': 'Spieler 2:'}, 0, self.screen_height / 2)
+        ]
+
+        # Aktiven Input festlegen (default: 0 => entspricht erstem Item)
+        self.active_input = 0
+        self.active_color = (255, 134, 48)
+        self.active_cursor = '_'
+
 
     def update(self, deltat):
-        self.value_label = self.font.render(self.input_value + self.input_value_cursor, 1, (255, 134, 48))
-        self.value_label_position = self.get_position(self.value_label, 1)
+        for pre_game_item in self.pre_game_items:
+            pre_game_item.input.set_font_color((255, 255, 255))
+        self.pre_game_items[self.active_input].input.set_font_color(self.active_color)
 
     def render(self, deltat):
-        # Zeilen des PreGame rendern
-        self.screen.blit(self.label, self.label_position)
-        self.screen.blit(self.value_label, self.value_label_position)
-        self.screen.blit(self.error_label, self.error_label_position)
+        for pre_game_item in self.pre_game_items:
+            pre_game_item.render(deltat)
 
     def handle_keypress(self, event):
         if event.unicode.isalpha():
@@ -51,20 +41,28 @@ class PreGame():
         elif event.key == pygame.K_BACKSPACE:
             self.delete_last_input_character()
         elif event.key == pygame.K_RETURN:
-            self.action()
-
+            self.actions['success']()
+        elif event.key == pygame.K_ESCAPE:
+            self.actions['cancel']()
+        elif event.key == pygame.K_DOWN:
+            self.increment_active_item()
+        elif event.key == pygame.K_UP:
+            self.decrement_active_item()
 
     def delete_last_input_character(self):
         self.input_value = self.input_value[:-1]
 
-    def get_position(self, element, order):
-        pos_x = (self.screen_width / 2) - (self.get_element_width(element) / 2)
-        pos_y = (self.screen_height / 2) - (self.total_height / 2) + ((order*2) + order * self.get_element_height(element))
-        position = (pos_x, pos_y)
-        return position
+    def set_active_item(self, input_number):
+        self.active_input = input_number
 
-    def get_element_height(self, element):
-        return element.get_rect().height
+    def increment_active_item(self):
+        if self.active_input < len(self.pre_game_items) - 1:
+            self.active_input += 1
+        else:
+            self.active_input = 0
 
-    def get_element_width(self, element):
-        return element.get_rect().width
+    def decrement_active_item(self):
+        if self.active_input > 0:
+            self.active_input -= 1
+        else:
+            self.active_input = len(self.pre_game_items) - 1

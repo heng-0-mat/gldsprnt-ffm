@@ -33,7 +33,7 @@ class Gldsprnt():
 
         # Hauptmenü festlegen
         main_menu_items = [
-            {'text': 'Rennen', 'action': self.load_first_player_input},
+            {'text': 'Rennen', 'action': self.load_pre_game},
             {'text': 'Highscore', 'action': self.load_highscore},
             {'text': 'Optionen', 'action': self.load_options_menu},
             {'text': 'Beenden', 'action': sys.exit},
@@ -59,17 +59,8 @@ class Gldsprnt():
         # Array für aktive Spieler
         self.current_players = []
 
-        # PreGame für Player1 anlegen
-        first_pre_game_item = {'text': 'Name erster Fahrer', 'action': self.load_second_player_input}
-        # PreGame für Player2 anlegen
-        second_pre_game_item = {'text': 'Name zweiter Fahrer', 'action': self.load_race_view}
-
-        # Player1 PreGame erzeugen
-        self.first_pre_game = PreGame(self.screen, first_pre_game_item)
-        # Player2 PreGame erzeugen
-        self.second_pre_game = PreGame(self.screen, second_pre_game_item)
-        # Aktives PreGame festlegen
-        self.active_pre_game = self.first_pre_game
+        # PreGame-Objekt erzeugen
+        self.pre_game = None
 
         # Race-Objekt erzeugen
         self.race = None
@@ -95,19 +86,15 @@ class Gldsprnt():
         self.set_gamestate("MENU")
         self.active_menu = self.main_menu
 
-    def load_first_player_input(self):
+    def load_pre_game(self):
         self.set_gamestate("PREGAME")
-        self.active_pre_game = self.first_pre_game
-        if self.prev_gamestate != "PREGAME":
-            self.active_pre_game.input_value = ''
-
-    def load_second_player_input(self):
-        self.set_gamestate("PREGAME")
-        self.active_pre_game = self.second_pre_game
-        self.active_pre_game.input_value = ''
+        self.pre_game = PreGame(self.screen, {'success': self.load_race_view, 'cancel': self.load_main_menu})
 
     def load_race_view(self):
-        players = [self.first_pre_game.input_value, self.second_pre_game.input_value]
+        players = [
+            self.pre_game.pre_game_items[0].input_text,
+            self.pre_game.pre_game_items[1].input_text
+        ]
         self.race = Race(self.screen, players, self.race_length, self.diameter, {'cancel': self.load_main_menu, 'success': self.commit_results})
         self.set_gamestate("GAME")
 
@@ -149,11 +136,8 @@ class Gldsprnt():
                 if event.type == QUIT:
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        self.set_gamestate("MENU")
-                    else:
-                        self.active_pre_game.handle_keypress(event)
-            self.active_pre_game.update(deltat)
+                    self.pre_game.handle_keypress(event)
+            self.pre_game.update(deltat)
 
         elif self.active_gamestate == "GAME":
             for event in pygame.event.get():
@@ -179,7 +163,7 @@ class Gldsprnt():
             self.active_menu.render(deltat)
 
         elif self.active_gamestate == "PREGAME":
-            self.active_pre_game.render(deltat)
+            self.pre_game.render(deltat)
         elif self.active_gamestate == "GAME":
             self.race.render(deltat)
         elif self.active_gamestate == "HIGHSCORE":
