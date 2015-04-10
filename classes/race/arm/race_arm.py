@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/python
 
+import pygame
 from classes.race.race import Race
 from classes.race.arm.player_arm import PlayerARM
 
