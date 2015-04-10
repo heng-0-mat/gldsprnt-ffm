@@ -14,6 +14,7 @@ class BikeObserver():
         self.port = port
         self.counter = 0
         if helpers.is_raspberry_pi():
+            GPIO.setmode(GPIO.BCM)
             GPIO.setup(self.port, GPIO.IN)
 
     def count_up(self, channel):
