@@ -31,4 +31,4 @@ class BikeObserver():
     def read_count(self):
         result = self.counter
         self.counter = 0
-        return result
+        print str(result)
