@@ -8,8 +8,14 @@ from pygame.locals import *
 
 from classes.menu.menu import Menu
 from classes.pre_game.pre_game import PreGame
-from classes.race.race import Race
+from classes.race.x86.race_x86 import RaceX86
+from classes.race.arm.race_arm import RaceARM
 from classes.highscore import Highscore
+from classes import helpers
+
+PLATFORM = 'x86'
+if helpers.is_raspberry_pi():
+    PLATFORM = 'ARM'
 
 
 class Gldsprnt():
@@ -92,7 +98,10 @@ class Gldsprnt():
             self.pre_game.pre_game_items[0].input_text,
             self.pre_game.pre_game_items[1].input_text
         ]
-        self.race = Race(self.screen, players, self.race_length, self.diameter, {'cancel': self.load_main_menu, 'success': self.commit_results})
+        if PLATFORM == 'ARM':
+            self.race = RaceARM(self.screen, players, self.race_length, self.diameter, {'cancel': self.load_main_menu, 'success': self.commit_results})
+        elif PLATFORM == 'x86':
+            self.race = RaceX86(self.screen, players, self.race_length, self.diameter, {'cancel': self.load_main_menu, 'success': self.commit_results})
         self.set_gamestate("GAME")
 
     def load_highscore(self):
@@ -142,7 +151,7 @@ class Gldsprnt():
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     # TODO: Zum Testen kann man mit Tasten spielen
-                    self.race.handle_input(event)
+                    self.race.handle_input_data(event)
             self.race.update(deltat)
 
         elif self.active_gamestate == "HIGHSCORE":

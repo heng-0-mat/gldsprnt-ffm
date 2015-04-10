@@ -5,14 +5,13 @@ import time
 
 import pygame
 
-from classes.race.player import Player
 from classes.race.countdown import Countdown
 from classes.label import Label
 
 
 class Race():
 
-    def __init__(self, screen, players, race_length, diameter, actions):
+    def __init__(self, screen, race_length, diameter, actions):
         self.race_status = 'READY'
         self.actions = actions
 
@@ -30,29 +29,8 @@ class Race():
         self.race_length = race_length
         self.diameter = diameter
 
+        # Leeres Array für Player, wird in Unterklassen belegt
         self.players = []
-        self.players.append(
-            Player(
-                self.screen,
-                players[0],
-                self.color_first_player,
-                0,
-                0,
-                self.race_length,
-                self.diameter
-            )
-        )
-        self.players.append(
-            Player(
-                self.screen,
-                players[1],
-                self.color_second_player,
-                0,
-                self.screen_height / 2,
-                self.race_length,
-                self.diameter
-            )
-        )
 
         # Informations-Label
         self.information_label = Label(u'Return zum Starten …', self.information_font, self.information_color)
@@ -85,7 +63,7 @@ class Race():
     def set_race_status(self, status):
         self.race_status = status
 
-    def handle_input(self, event):
+    def handle_input_data(self, event):
         # Anfangs-Status
         if self.race_status == 'READY':
             if event.key == pygame.K_RETURN:
@@ -106,18 +84,10 @@ class Race():
                     (self.screen_width / 2) - (self.information_label.width / 2),
                     (self.screen_height - self.information_label.height)
                 )
-            elif event.key == pygame.K_a:
-                self.interrupt_countdown(self.players[0])
-            elif event.key == pygame.K_b:
-                self.interrupt_countdown(self.players[1])
 
         # sonstige Status
         else:
-            if event.key == pygame.K_a:
-                self.players[0].handle_progress()
-            elif event.key == pygame.K_b:
-                self.players[1].handle_progress()
-            elif event.key == pygame.K_ESCAPE:
+            if event.key == pygame.K_ESCAPE:
                 self.actions['cancel']()
 
     def start(self):

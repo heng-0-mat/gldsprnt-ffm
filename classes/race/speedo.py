@@ -44,8 +44,8 @@ class Speedo():
             value = self.format % self.value
         return value
 
-    def set_current_speed(self):
+    def set_current_speed(self, ticks):
         current_time = time.time()
-        if self.prev_time is not None:
-            self.value = (self.diameter * 36.0) / ((current_time - self.prev_time) * 1000.0)
+        if ticks > 0 and self.prev_time is not None:
+            self.value = (self.diameter * 36.0) / ((current_time - self.prev_time) * 1000.0) * ticks
         self.prev_time = current_time

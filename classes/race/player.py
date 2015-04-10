@@ -73,16 +73,16 @@ class Player():
         self.screen.blit(self.time_label.label, self.time_label.position)
         self.speedo.render()
 
-    def handle_progress(self):
+    def handle_progress(self, ticks):
         if self.running:
             if self.event_count < self.full_ticks:
-                self.event_count += 1
+                self.event_count += ticks
             else:
                 self.finish_time = self.get_current_time()
                 self.running = False
                 self.finished = True
                 self.time_label.set_text(self.finish_time)
-        self.speedo.set_current_speed()
+        self.speedo.set_current_speed(ticks)
 
     def set_start_time(self, start_time):
         self.start_time = start_time
