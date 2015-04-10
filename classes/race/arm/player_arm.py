@@ -17,4 +17,4 @@ class PlayerARM(Player):
 
     def update(self):
         self.handle_progress(self.bike_observer.read_count())
-        self.update()
+        Player.update(self)
