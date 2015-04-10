@@ -14,7 +14,6 @@ class PlayerARM(Player):
         # Port festlegen und GPIO aktivieren
         self.gpio_port = gpio_port
         self.bike_observer = BikeObserver(self.gpio_port)
-        self.bike_observer.start_listening()
 
     def update(self):
         self.handle_progress(self.bike_observer.read_count())

@@ -36,6 +36,8 @@ class RaceARM(Race):
                 24
             )
         )
+        for player in self.players:
+            player.bike_observer.start_listening()
 
     def handle_input_data(self, event):
         if self.race_status != 'COUNTDOWN' and self.race_status != 'FINISHED' and self.race_status == 'READY':

@@ -22,6 +22,7 @@ class BikeObserver():
 
     def start_listening(self):
         if helpers.is_raspberry_pi():
+            self.counter = 0
             GPIO.add_event_detect(self.port, GPIO.FALLING, callback=self.count_up)
 
     def stop_listening(self):
