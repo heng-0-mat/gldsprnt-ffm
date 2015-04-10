@@ -29,6 +29,4 @@ class BikeObserver():
             GPIO.remove_event_detect(self.port)
 
     def read_count(self):
-        result = self.counter
-        self.counter = 0
-        print str(result)
+        print 'jo'
