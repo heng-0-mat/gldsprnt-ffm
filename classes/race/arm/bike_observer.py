@@ -16,6 +16,7 @@ class BikeObserver():
         if helpers.is_raspberry_pi():
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(self.port, GPIO.IN)
+            GPIO.add_event_detect(self.port, GPIO.FALLING, callback=self.count_up)
 
     def count_up(self, channel):
         self.counter += 1
