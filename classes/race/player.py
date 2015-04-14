@@ -61,13 +61,21 @@ class Player():
         # Speedo
         self.speedo = Speedo(self.screen, self.pos_x, self.pos_y, self.font, self.diameter)
 
-    def update(self):
+        # Deltat
+        self.update_delta = 0
+
+    def update(self, deltat):
+        self.update_delta += deltat
+
         self.progress_bar.set_progress(self.event_count * 1.0 / self.full_ticks)
         if self.running:
             self.time_label.set_text(self.get_current_time())
-        self.speedo.update()
+        if self.update_delta > 400:
+            self.update_delta = 0
+            self.speedo.update()
 
-    def render(self):
+    def render(self, deltat):
+
         self.progress_bar.render()
         self.screen.blit(self.name_label.label, self.name_label.position)
         self.screen.blit(self.time_label.label, self.time_label.position)

@@ -41,7 +41,7 @@ class Race():
 
     def update(self, deltat):
         for player in self.players:
-            player.update()
+            player.update(deltat)
         if self.race_status == 'COUNTDOWN':
             self.countdown.update(deltat)
         if self.race_status == 'RUNNING':
@@ -51,7 +51,7 @@ class Race():
     def render(self, deltat):
         # Player rendern
         for player in self.players:
-            player.render()
+            player.render(deltat)
         # Info-Label rendern
         self.screen.blit(self.information_label.label, self.information_label.position)
         if self.race_status == 'COUNTDOWN':
