@@ -20,9 +20,6 @@ class Race():
         self.screen_height = self.screen.get_rect().height
 
         self.font_size = self.screen_height / 9
-        self.color_first_player = (255, 85, 0)
-        self.color_second_player = (88, 89, 178)
-        self.information_color = (255, 134, 48)
         self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
         self.information_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size * 3 / 7)
 
@@ -33,7 +30,7 @@ class Race():
         self.players = []
 
         # Informations-Label
-        self.information_label = Label(u'Return zum Starten …', self.information_font, self.information_color)
+        self.information_label = Label(u'Return zum Starten …', self.information_font, (255, 134, 48))
         self.information_label.set_position(
             (self.screen_width / 2) - (self.information_label.width / 2),
             (self.screen_height - self.information_label.height)
@@ -92,10 +89,11 @@ class Race():
 
     def start(self):
         self.set_race_status('RUNNING')
+        start_time = time.time()
         # Startzeiten an Player übermitteln
         for player in self.players:
             player.running = True
-            player.set_start_time(time.time())
+            player.set_start_time(start_time)
 
     def interrupt_countdown(self, interrupter):
         self.countdown.stop()
