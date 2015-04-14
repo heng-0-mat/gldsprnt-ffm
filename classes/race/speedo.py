@@ -38,9 +38,9 @@ class Speedo():
         self.screen.blit(self.label.label, self.label.position)
 
     def get_current_speed(self):
-        #current_time = int(round(time.time() * 1000))
+        current_time = int(round(time.time() * 1000))
         value = (self.format % 0.0)
-        if self.prev_time is not None: # and current_time - self.prev_time < 1000:
+        if self.prev_time is not None and current_time - self.prev_time < 1:
             value = self.format % self.value
         return value
 
@@ -49,6 +49,3 @@ class Speedo():
         if self.prev_time is not None:
             self.value = (ticks * self.diameter * 36.0) / (current_time - self.prev_time)
         self.prev_time = current_time
-
-    def set_speed(self, speed):
-        self.value = speed

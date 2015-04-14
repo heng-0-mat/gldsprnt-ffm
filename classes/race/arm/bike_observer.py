@@ -9,12 +9,10 @@ if helpers.is_raspberry_pi():
 
 class BikeObserver():
 
-    def __init__(self, port, diameter):
+    def __init__(self, port):
 
         self.port = port
         self.counter = 0
-        self.speed = 0.0
-        self.diameter = diameter
         if helpers.is_raspberry_pi():
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(self.port, GPIO.IN)
@@ -22,7 +20,6 @@ class BikeObserver():
 
     def count_up(self, channel):
         self.counter += 1
-
 
     def start_listening(self):
         if helpers.is_raspberry_pi():
@@ -37,6 +34,3 @@ class BikeObserver():
         result = self.counter
         self.counter = 0
         return result
-
-    def get_speed(self):
-        return
