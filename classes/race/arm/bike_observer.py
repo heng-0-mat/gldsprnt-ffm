@@ -20,6 +20,7 @@ class BikeObserver():
 
     def count_up(self, channel):
         self.counter += 1
+        print self.counter
 
     def start_listening(self):
         if helpers.is_raspberry_pi():
