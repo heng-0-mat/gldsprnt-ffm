@@ -22,7 +22,7 @@ class Speedo():
         self.font_size = self.screen_height / 9
         self.font = font
 
-        self.prev_time = None
+        self.prev_time = int(round(time.time() * 1000))
         self.diameter = diameter
 
         self.label = Label(self.format % 0.0, self.font, (255, 255, 255))
@@ -30,6 +30,8 @@ class Speedo():
             self.pos_x + self.screen_width - self.label.width - self.screen_width / 80,
             self.pos_y
         )
+
+        self.current_ticks = 0
 
     def update(self):
         self.label.set_text(self.get_current_speed())
@@ -40,12 +42,14 @@ class Speedo():
     def get_current_speed(self):
         current_time = int(round(time.time() * 1000))
         value = (self.format % 0.0)
-        if self.prev_time is not None and current_time - self.prev_time < 1:
+        if self.prev_time is not None and current_time - self.prev_time < 1000:
             value = self.format % self.value
         return value
 
     def set_current_speed(self, ticks):
+        self.current_ticks += ticks
         current_time = int(round(time.time() * 1000))
-        if self.prev_time is not None:
+        if self.current_ticks == 2:
             self.value = (ticks * self.diameter * 36.0) / (current_time - self.prev_time)
+            self.current_ticks = 0
         self.prev_time = current_time
