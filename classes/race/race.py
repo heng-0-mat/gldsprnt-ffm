@@ -4,6 +4,7 @@
 import time
 
 import pygame
+from pygame import Color
 
 from classes.race.countdown import Countdown
 from classes.label import Label
@@ -30,7 +31,7 @@ class Race():
         self.players = []
 
         # Informations-Label
-        self.information_label = Label(u'Return zum Starten …', self.information_font, (255, 134, 48))
+        self.information_label = Label(u'Return zum Starten …', self.information_font, (68, 68, 68), (255, 255, 255))
         self.information_label.set_position(
             (self.screen_width / 2) - (self.information_label.width / 2),
             (self.screen_height - self.information_label.height)
@@ -53,7 +54,8 @@ class Race():
         for player in self.players:
             player.render(deltat)
         # Info-Label rendern
-        self.screen.blit(self.information_label.label, self.information_label.position)
+        if self.race_status == 'READY':
+            self.screen.blit(self.information_label.label, self.information_label.position)
         if self.race_status == 'COUNTDOWN':
             self.countdown.render(deltat)
 

@@ -19,7 +19,7 @@ class RaceX86(Race):
             Player(
                 self.screen,
                 players[0],
-                (255, 85, 0),
+                (255, 30, 30),
                 0,
                 0,
                 self.race_length,
@@ -30,7 +30,7 @@ class RaceX86(Race):
             Player(
                 self.screen,
                 players[1],
-                (88, 89, 178),
+                (30, 30, 255),
                 0,
                 self.screen_height / 2,
                 self.race_length,

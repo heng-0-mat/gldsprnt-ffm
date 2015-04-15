@@ -3,7 +3,7 @@
 
 import pygame
 import os
-from pygame import Surface
+from pygame import Surface, Color
 
 
 class Label():

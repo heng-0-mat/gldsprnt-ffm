@@ -17,10 +17,9 @@ class Countdown():
         self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.screen_height)
         self.start_time = None
         self.running = False
-        self.color = (255, 134, 48)
         self.actions = actions
         self.value = 3
-        self.label = Label(str(self.value), self.font, self.color)
+        self.label = Label(str(self.value), self.font, (255, 255, 255), (68, 68, 68))
         self.label.set_position(
             self.screen_width / 2 - self.label.width / 2,
             self.screen_height / 2 - self.label.height / 2

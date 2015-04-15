@@ -17,7 +17,7 @@ class RaceARM(Race):
             PlayerARM(
                 self.screen,
                 players[0],
-                (255, 85, 0),
+                (255, 0, 0),
                 0,
                 0,
                 self.race_length,
@@ -29,7 +29,7 @@ class RaceARM(Race):
             PlayerARM(
                 self.screen,
                 players[1],
-                (88, 89, 178),
+                (0, 0, 255),
                 0,
                 self.screen_height / 2,
                 self.race_length,
