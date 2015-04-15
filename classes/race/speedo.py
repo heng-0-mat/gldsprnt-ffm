@@ -26,10 +26,10 @@ class Speedo():
         self.prev_time = int(round(time.time() * 1000))
         self.diameter = diameter
 
-        self.label = Label(self.format % 0.0, self.font, (255, 255, 255))
+        self.label = Label(self.format % 0.0, self.font, (68, 68, 68), (255, 255, 255), (0, 0), 'speed-grey')
         self.label.set_position(
-            self.pos_x + self.screen_width - self.label.width - self.screen_width / 80,
-            self.pos_y
+            self.pos_x + self.screen_width - self.label.width - self.screen_width / 60,
+            self.pos_y + self.screen_width / 60
         )
 
         self.current_ticks = 0

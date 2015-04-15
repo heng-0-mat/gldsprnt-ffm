@@ -35,9 +35,9 @@ class PreGame():
     def update(self, deltat):
         self.validate_names()
         for pre_game_item in self.pre_game_items:
-            pre_game_item.input.set_font_color((255, 255, 255))
+            pre_game_item.deactivate()
             pre_game_item.update(deltat)
-        self.pre_game_items[self.active_input].input.set_font_color(self.active_color)
+        self.pre_game_items[self.active_input].activate()
 
     def render(self, deltat):
         for pre_game_item in self.pre_game_items:

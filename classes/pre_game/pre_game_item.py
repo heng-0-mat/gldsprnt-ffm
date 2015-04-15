@@ -11,6 +11,7 @@ class PreGameItem():
         self.screen = screen
         self.display_height = self.screen.get_height() / 2
         self.display_width = self.screen.get_width()
+        self.font_size = self.screen.get_height() / 10
 
         self.pos_x = pos_x
         self.pos_y = pos_y
@@ -20,12 +21,12 @@ class PreGameItem():
         self.input_format = '%s'
 
         # Beschreibungs-Zeile
-        self.description_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.screen.get_height() / 12)
-        self.description = Label(self.item['description'], self.description_font, (255, 255, 255))
+        self.description_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
+        self.description = Label(self.item['description'], self.description_font, (255, 255, 255), (68, 68, 68))
 
         # Input-Zeile
-        self.input_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.screen.get_height() / 9)
-        self.input = Label(self.input_format % self.input_text, self.input_font, (255, 255, 255))
+        self.input_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
+        self.input = Label(self.input_format % self.input_text, self.input_font, (68, 68, 68), (255, 255, 255))
 
         # Fehler-Zeile
         self.error_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.screen.get_height() / 18)
@@ -80,3 +81,11 @@ class PreGameItem():
         self.screen.blit(self.description.label, self.description.position)
         self.screen.blit(self.input.label, self.input.position)
         self.screen.blit(self.error.label, self.error.position)
+
+    def activate(self):
+        self.input.set_font_color((68, 68, 68))
+        self.input.set_background_color((255, 255, 255))
+
+    def deactivate(self):
+        self.input.set_font_color((255, 255, 255))
+        self.input.set_background_color((68, 68, 68))

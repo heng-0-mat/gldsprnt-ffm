@@ -18,7 +18,7 @@ class Player():
         self.screen_width = screen.get_rect().width
         self.screen_height = screen.get_rect().height
 
-        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.screen_height / 9)
+        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.screen_height / 12)
 
         self.race_length = race_length
         self.diameter = diameter
@@ -38,17 +38,17 @@ class Player():
         self.avg_speed = None
 
         # Namenslabel
-        self.name_label = Label(self.name, self.font, (255, 255, 255))
+        self.name_label = Label(self.name, self.font, (68, 68, 68), (255, 255, 255), (0, 0))
         self.name_label.set_position(
-            self.pos_x + self.screen_width / 80,
-            self.pos_y
+            self.pos_x + self.screen_width / 60,
+            self.pos_y + self.screen_width / 60
         )
 
         # Time
-        self.time_label = Label(self.current_time_text, self.font, (255, 255, 255))
+        self.time_label = Label(self.current_time_text, self.font, (68, 68, 68), (255, 255, 255), (0, 0), 'clock-grey')
         self.time_label.set_position(
-            self.pos_x + self.screen_width - self.time_label.width - self.screen_width / 80,
-            self.pos_y + self.time_label.height
+            self.pos_x + self.screen_width - self.time_label.width - self.screen_width / 60,
+            self.pos_y + self.time_label.height + self.screen_width / 60 + self.screen_width / 60
         )
 
         # Progress

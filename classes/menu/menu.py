@@ -25,61 +25,32 @@ class Menu():
         self.current_item = 0
         self.animating = False
         self.animation_timer = 0
+        self.item_margin = 5
 
         for index, item in enumerate(items):
             menu_item = MenuItem(item, self.font, self.font_color)
-
             # t_h: total height of text block
-            t_h = len(items) * menu_item.height
+            t_h = (len(items) * menu_item.height) + (len(items) * self.item_margin) - self.item_margin
             pos_x = (self.screen_width / 2) - (menu_item.width / 2)
             # This line includes a bug fix by Ariel (Thanks!)
             # Please check the comments section of pt. 2 for an explanation
-            pos_y = (self.screen_height / 2) - (t_h / 2) + ((index*2) + index * menu_item.height)
+            pos_y = (self.screen_height / 2) - (t_h / 2) + ((index * self.item_margin) + index * menu_item.height)
 
             menu_item.set_position(pos_x, pos_y)
             self.items.append(menu_item)
-
-    def update(self, deltat):
-        # Überprüft ob die Animation abgelaufen ist
-        if self.animating and time.time() * 1000.0 - self.animation_timer > self.ANIMATION_DURATION:
-            current_item = self.items[self.current_item]
-            current_item.set_position(current_item.prev_position[0], current_item.prev_position[1])
-
-            self.animating = False
-            self.animation_timer = 0
-            self.items[self.current_item].item["action"]()
 
     def render(self, deltat):
         # Farben zurücksetzen
         for item in self.items:
             #item.set_font_color((255, 255, 255))
-            item.set_inactive()
+            item.set_default_state()
 
         #self.items[self.current_item].set_font_color((255, 134, 48))
-        self.items[self.current_item].set_active()
+        self.items[self.current_item].set_active_state()
 
         # Menuitems rendern
         for item in self.items:
             self.screen.blit(item.label, item.position)
-
-        # Animationen rendern
-        if self.animating:
-            current_item = self.items[self.current_item]
-
-            px = current_item.prev_position[0]
-            py = current_item.prev_position[1]
-
-            # Animations Variablen
-            speed = 0.05  # Geschwindigkeit der Animation
-            swing_amount = 1.0  # Wie doll der Text wackelt :)
-
-            # t = 0 bei Animationsstart
-            t = time.time() * 1000.0 - self.animation_timer
-
-            # DeltaT in der Animation macht die Animation Framerate unabhängig
-            px += math.sin(t * speed) * (swing_amount * deltat)
-
-            current_item.position = (px, py)
 
     def handle_keypress(self, key):
         # Menüitems nicht änderbar während der Animation
@@ -110,7 +81,4 @@ class Menu():
 
         # Wird ausgeführt, wenn ein Item mit Enter oder Space getriggert wird
         if key == pygame.K_SPACE or key == pygame.K_RETURN:
-            self.animating = True
-            self.animation_timer = time.time() * 1000.0
-            # Vorherige Position speichern, um diese nach der Animation zurückzusetzen
-            self.items[self.current_item].prev_position = self.items[self.current_item].position
+            self.items[self.current_item].item["action"]()

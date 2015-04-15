@@ -28,7 +28,7 @@ class Gldsprnt():
         display_info = pygame.display.Info()
 
         # Screen festlegen (Fullscreen aktiviert)
-        self.screen = pygame.display.set_mode((1024, 768)) # (display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
 
         # Maus deaktivieren
         pygame.mouse.set_visible(False)
@@ -137,8 +137,6 @@ class Gldsprnt():
                 if event.type == pygame.KEYDOWN:
                     self.active_menu.handle_keypress(event.key)
 
-            self.active_menu.update(deltat)
-
         elif self.active_gamestate == "PREGAME":
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -152,7 +150,6 @@ class Gldsprnt():
                 if event.type == QUIT:
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
-                    # TODO: Zum Testen kann man mit Tasten spielen
                     self.race.handle_input_data(event)
             self.race.update(deltat)
 

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/python
 
+from pygame import Surface
+
 
 class MenuItem():
 
@@ -28,7 +30,8 @@ class MenuItem():
 
         self.value = 0
         self.font = font
-        self.label = self.font.render(self.text, 1, font_color)
+        self.label_text = self.font.render(self.text, 1, font_color)
+        self.label = self.create_label((255, 255, 255), (0, 0, 0))
         self.width = self.label.get_rect().width
         self.height = self.label.get_rect().height
         self.dimensions = (self.width, self.height)
@@ -43,13 +46,13 @@ class MenuItem():
         self.pos_y = y
 
     def set_font_color(self, color):
-        self.label = self.font.render(self.text, 1, color)
+        self.label_text = self.font.render(self.text, 1, color)
 
-    def set_active(self):
-        self.label = self.font.render(self.text, 1, (255, 255, 255), (0, 0, 0))
+    def set_active_state(self):
+        self.label = self.create_label((68, 68, 68), (255, 255, 255))
 
-    def set_inactive(self):
-        self.label = self.font.render(self.text, 1, (255, 255, 255))
+    def set_default_state(self):
+        self.label = self.create_label((255, 255, 255), (68, 68, 68))
 
     def set_text(self, text):
         self.text = text
@@ -63,3 +66,10 @@ class MenuItem():
 
     def decrement(self):
         self.set_increment(self.increment_value - self.increment_step)
+
+    def create_label(self, font_color, box_color):
+        label_box = Surface((self.label_text.get_rect().width + 40, self.label_text.get_rect().height + 10))
+        label_box.fill(box_color)
+        self.set_font_color(font_color)
+        label_box.blit(self.label_text, (20, 5))
+        return label_box
