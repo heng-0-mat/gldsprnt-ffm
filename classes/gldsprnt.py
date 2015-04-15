@@ -28,7 +28,7 @@ class Gldsprnt():
         display_info = pygame.display.Info()
 
         # Screen festlegen (Fullscreen aktiviert)
-        self.screen = pygame.display.set_mode((display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((1024, 768)) # (display_info.current_w, display_info.current_h), pygame.FULLSCREEN)
 
         # Maus deaktivieren
         pygame.mouse.set_visible(False)
@@ -44,11 +44,17 @@ class Gldsprnt():
             {'text': 'Optionen', 'action': self.load_options_menu},
             {'text': 'Beenden', 'action': sys.exit},
         ]
+
+        # Goldsprint Einstellungen
+        # self.player_count = 2
+        self.race_length = 100
+        self.diameter = 32.0
+
         # Optionsmenü festlegen
         options_menu_items = [
-            {'text': 'Anzahl Spieler', 'increment': {'min': 2, 'max': 12, 'value': 2, 'format':  u'%s: ‹%d›'}, 'action': self.set_player_count},
-            {'text': u'Rennlänge', 'increment': {'min': 10, 'max': 1000, 'value': 10, 'step': 10, 'format': u'%s: ‹%dm›'}, 'action': self.set_race_length},
-            {'text': 'Rollenumfang', 'increment': {'min': 20.0, 'max': 70.0, 'value': 32.0, 'step': 0.1, 'format': u'%s: ‹%0.1fcm›'}, 'action': self.set_diameter},
+            # {'text': 'Anzahl Spieler', 'increment': {'min': 2, 'max': 12, 'value': self.player_count, 'format':  u'%s: ‹%d›'}, 'action': self.set_player_count},
+            {'text': u'Rennlänge', 'increment': {'min': 10, 'max': 1000, 'value': self.race_length, 'step': 10, 'format': u'%s: ‹%dm›'}, 'action': self.set_race_length},
+            {'text': 'Rollenumfang', 'increment': {'min': 20.0, 'max': 70.0, 'value': self.diameter, 'step': 0.1, 'format': u'%s: ‹%0.1fcm›'}, 'action': self.set_diameter},
             {'text': u'Zurück', 'action': self.load_main_menu}
         ]
 
@@ -71,10 +77,6 @@ class Gldsprnt():
         # Highscore-Objekt erzeugen
         self.highscore = Highscore(self.screen, self.results)
 
-        # Goldsprint Einstellungen
-        self.player_count = 2
-        self.race_length = 100
-        self.diameter = 32
 
         # Aktiven Gamestate festlegen
         self.active_gamestate = "MENU"
@@ -119,7 +121,7 @@ class Gldsprnt():
 
     def commit_results(self):
         for player in self.race.players:
-            self.results.update({player.name: {'time': player.finish_time}})
+            self.results.update({player.name: {'time': player.format_time(player.finish_time)}})
         self.load_highscore()
 
 

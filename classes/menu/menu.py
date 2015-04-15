@@ -52,9 +52,11 @@ class Menu():
     def render(self, deltat):
         # Farben zurücksetzen
         for item in self.items:
-            item.set_font_color((255, 255, 255))
+            #item.set_font_color((255, 255, 255))
+            item.set_inactive()
 
-        self.items[self.current_item].set_font_color((255, 134, 48))
+        #self.items[self.current_item].set_font_color((255, 134, 48))
+        self.items[self.current_item].set_active()
 
         # Menuitems rendern
         for item in self.items:

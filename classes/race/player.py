@@ -33,8 +33,9 @@ class Player():
         self.running = False
         self.finished = False
         self.start_time = time.time()
-        self.current_time_text = self.get_current_time()
+        self.current_time_text = self.format_time(self.get_current_time())
         self.finish_time = None
+        self.avg_speed = None
 
         # Namenslabel
         self.name_label = Label(self.name, self.font, (255, 255, 255))
@@ -64,11 +65,11 @@ class Player():
     def update(self, deltat):
         self.progress_bar.set_progress(self.event_count * 1.0 / self.full_ticks)
         if self.running:
-            self.time_label.set_text(self.get_current_time())
-        self.speedo.update()
+            self.time_label.set_text(self.format_time(self.get_current_time()))
+        if not self.finished:
+            self.speedo.update()
 
     def render(self, deltat):
-
         self.progress_bar.render()
         self.screen.blit(self.name_label.label, self.name_label.position)
         self.screen.blit(self.time_label.label, self.time_label.position)
@@ -82,14 +83,18 @@ class Player():
                 self.finish_time = self.get_current_time()
                 self.running = False
                 self.finished = True
-                self.time_label.set_text(self.finish_time)
+                self.avg_speed = (self.race_length * 3.6) / self.finish_time
+                self.speedo.set_avg_speed(self.avg_speed)
+                self.time_label.set_text(self.format_time(self.finish_time))
         self.speedo.set_current_speed(ticks)
 
     def set_start_time(self, start_time):
         self.start_time = start_time
 
     def get_current_time(self):
-        timer = time.time() - self.start_time
+        return time.time() - self.start_time
+
+    def format_time(self, timer):
         seconds = int(timer)
         milli_seconds = int(modf(timer)[0] * 100)
         return ('%0d.%02ds' % (seconds, milli_seconds)).rjust(7)

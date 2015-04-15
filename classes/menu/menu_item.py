@@ -45,6 +45,12 @@ class MenuItem():
     def set_font_color(self, color):
         self.label = self.font.render(self.text, 1, color)
 
+    def set_active(self):
+        self.label = self.font.render(self.text, 1, (255, 255, 255), (0, 0, 0))
+
+    def set_inactive(self):
+        self.label = self.font.render(self.text, 1, (255, 255, 255))
+
     def set_text(self, text):
         self.text = text
 

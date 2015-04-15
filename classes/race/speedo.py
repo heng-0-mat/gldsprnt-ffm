@@ -14,7 +14,8 @@ class Speedo():
         self.screen_width = screen.get_rect().width
         self.screen_height = screen.get_rect().height
 
-        self.format = '%12.2fkm/h'
+        self.format = '%7.2fkm/h'
+        self.avg_format = u'ø%6.2fkm/h'
         self.value = 0.0
         self.label_text = self.format % self.value
         self.pos_x = pos_x
@@ -48,8 +49,11 @@ class Speedo():
 
     def set_current_speed(self, ticks):
         self.current_ticks += ticks
-        if self.current_ticks > 10:
+        if self.current_ticks > 8:
             current_time = int(round(time.time() * 1000))
             self.value = (self.current_ticks * self.diameter * 36.0) / (current_time - self.prev_time)
             self.current_ticks = 0
             self.prev_time = current_time
+
+    def set_avg_speed(self, speed):
+        self.label.set_text(self.avg_format % speed)
