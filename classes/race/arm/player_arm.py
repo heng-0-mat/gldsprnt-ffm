@@ -16,5 +16,10 @@ class PlayerARM(Player):
         self.bike_observer = BikeObserver(self.gpio_port)
 
     def update(self, deltat):
-        self.handle_progress(self.bike_observer.read_count())
+        Player.handle_progress(self, self.bike_observer.read_count())
         Player.update(self, deltat)
+
+    def handle_progress(self, ticks):
+        Player.handle_progress(self, ticks)
+        if self.finished:
+            self.bike_observer.stop_listening()

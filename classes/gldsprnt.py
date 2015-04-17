@@ -75,7 +75,7 @@ class Gldsprnt():
         self.race = None
 
         # Highscore-Objekt erzeugen
-        self.highscore = Highscore(self.screen, self.results)
+        self.highscore = None
 
 
         # Aktiven Gamestate festlegen
@@ -101,13 +101,25 @@ class Gldsprnt():
             self.pre_game.pre_game_items[1].input_text
         ]
         if PLATFORM == 'ARM':
-            self.race = RaceARM(self.screen, players, self.race_length, self.diameter, {'cancel': self.load_main_menu, 'success': self.commit_results})
+            self.race = RaceARM(
+                self.screen,
+                players,
+                self.race_length,
+                self.diameter,
+                {'cancel': self.load_main_menu, 'success': self.commit_results}
+            )
         elif PLATFORM == 'x86':
-            self.race = RaceX86(self.screen, players, self.race_length, self.diameter, {'cancel': self.load_main_menu, 'success': self.commit_results})
+            self.race = RaceX86(
+                self.screen,
+                players,
+                self.race_length,
+                self.diameter,
+                {'cancel': self.load_main_menu, 'success': self.commit_results}
+            )
         self.set_gamestate("GAME")
 
     def load_highscore(self):
-        self.highscore = Highscore(self.screen, self.results)
+        self.highscore = Highscore(self.screen, self.results, {'cancel': self.load_main_menu})
         self.set_gamestate('HIGHSCORE')
 
     def set_player_count(self):
@@ -156,9 +168,7 @@ class Gldsprnt():
         elif self.active_gamestate == "HIGHSCORE":
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        self.load_main_menu()
-                    #self.highscore.handle_keypress(event)
+                    self.highscore.handle_keypress(event)
 
     def render(self, deltat):
         self.screen.fill((68, 68, 68))
