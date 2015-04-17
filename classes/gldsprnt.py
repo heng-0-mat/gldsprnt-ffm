@@ -47,13 +47,14 @@ class Gldsprnt():
 
         # Goldsprint Einstellungen
         # self.player_count = 2
-        self.race_length = 100
+        self.race_length_values = [10, 100, 200, 250, 500, 1000]
+        self.race_length = self.race_length_values[3]
         self.diameter = 32.0
 
         # Optionsmenü festlegen
         options_menu_items = [
             {'text': u'Rennlänge',
-             'values': {'value_list': [10, 100, 250, 500, 1000], 'selected': self.race_length, 'format': u'%s: ‹%dm›'},
+             'values': {'value_list': self.race_length_values, 'selected': self.race_length, 'format': u'%s: ‹%dm›'},
              'action': self.set_race_length
              },
             {'text': 'Rollenumfang',
