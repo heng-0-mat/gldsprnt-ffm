@@ -121,7 +121,7 @@ class Gldsprnt():
 
     def commit_results(self):
         for player in self.race.players:
-            self.results.update({player.name: {'time': player.format_time(player.finish_time)}})
+            self.results.update({player.name: {'time': player.format_time(player.finish_time), 'speed': player.avg_speed}})
         self.load_highscore()
 
 

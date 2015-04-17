@@ -2,6 +2,7 @@
 # !/usr/bin/python
 
 import pygame
+from pygame import Surface
 
 from classes.label import Label
 
@@ -13,30 +14,59 @@ class Highscore():
         self.screen_width = self.screen.get_rect().width
         self.screen_height = self.screen.get_rect().height
 
-        self.font_size = self.screen_height / 9
-        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
+        self.title_font_size = self.screen_height / 12
+        self.title_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.title_font_size)
         self.format = '%d. %s: %s'
 
-        self.results = results
-        self.sorted_results = sorted(self.results, key=lambda x: (self.results[x]['time']))
+        self.results = [
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '500'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1'},
+            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+        ]
+        self.sorted_results = sorted(self.results, key=lambda x: (int(x['speed'])))
 
-        self.highscore_title = Label('Highscore', self.font, (255, 134, 48))
-        highscore_height = (len(results) + 1) * self.highscore_title.height
+        self.highscore_title = Label('Highscore', self.title_font, (68, 68, 68), (255, 255, 255))
         self.highscore_title.set_position(
             (self.screen_width / 2) - (self.highscore_title.width / 2),
-            (self.screen_height / 2) - (highscore_height / 2)
+            (self.screen_height / 11) - (self.highscore_title.height / 2)
         )
+        self.highscore_height = self.screen_height - self.screen_height / 11
+        self.item_font_size = self.highscore_height / 11
+        self.item_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.item_font_size)
 
-        self.items = []
+        self.item_surface = Surface((self.highscore_height, self.screen_width))
+        self.item_surface.fill((68, 68, 68))
 
         for index, player in enumerate(self.sorted_results):
-            highscore_item = Label(self.format % (index + 1, player, results[player]['time']), self.font, (255, 255, 255))
-            pos_x = (self.screen_width / 2) - (highscore_item.width / 2)
-            pos_y = (self.screen_height / 2) - (highscore_height / 2) + (((index + 1)*2) + (index + 1) * highscore_item.height)
-            highscore_item.set_position(pos_x, pos_y)
-            self.items.append(highscore_item)
+            #highscore_item = Label(player, self.title_font, (255, 255, 255), (68, 68, 68))
+            highscore_item = self.item_font.render(self.format % (index + 1, player['name'], player['speed']), 1, (255, 255, 255))
+            pos_x = (self.screen_width / 2) - (highscore_item.get_rect().width / 2)
+            pos_y = index * highscore_item.get_rect().height + highscore_item.get_rect().height / 2
+            self.item_surface.blit(highscore_item, (pos_x, pos_y))
 
     def render(self, deltat):
+        self.screen.blit(self.item_surface, (
+            0, self.highscore_title.height
+        ))
         self.screen.blit(self.highscore_title.label, self.highscore_title.position)
-        for item in self.items:
-            self.screen.blit(item.label, item.position)
