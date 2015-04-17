@@ -53,9 +53,6 @@ class Menu():
             self.screen.blit(item.label, item.position)
 
     def handle_keypress(self, key):
-        # Menüitems nicht änderbar während der Animation
-        if self.animating:
-            return
 
         if self.current_item is None:
             self.current_item = 0
@@ -70,11 +67,20 @@ class Menu():
                 self.current_item = 0
 
         # Werte Hoch und Runter zählen
-        if self.items[self.current_item].incrementable:
+        if self.items[self.current_item].is_incrementable:
             if key == pygame.K_RIGHT:
                 self.items[self.current_item].increment()
             elif key == pygame.K_LEFT:
                 self.items[self.current_item].decrement()
+
+            if key == pygame.K_RIGHT or key == pygame.K_LEFT:
+                self.items[self.current_item].item["action"]()
+
+        if self.items[self.current_item].has_values:
+            if key == pygame.K_RIGHT:
+                self.items[self.current_item].select_next_value()
+            elif key == pygame.K_LEFT:
+                self.items[self.current_item].select_previous_value()
 
             if key == pygame.K_RIGHT or key == pygame.K_LEFT:
                 self.items[self.current_item].item["action"]()

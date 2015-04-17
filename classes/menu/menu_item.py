@@ -10,10 +10,11 @@ class MenuItem():
         self.item = item
         self.base_text = item["text"]
         self.text = item["text"]
-        self.incrementable = False
+        self.is_incrementable = False
+        self.has_values = False
 
         if "increment" in self.item:
-            self.incrementable = True
+            self.is_incrementable = True
             self.increment_min = self.item["increment"]["min"]
             self.increment_max = self.item["increment"]["max"]
             self.increment_value = self.item["increment"]["value"]
@@ -28,7 +29,15 @@ class MenuItem():
 
             self.set_increment(self.increment_value)
 
-        self.value = 0
+        elif 'values' in self.item:
+            self.has_values = True
+            self.value_list = self.item['values']['value_list']
+            self.value = self.item['values']['selected']
+            self.value_format = '%s:%d'
+            if 'format' in self.item['values']:
+                self.value_format = self.item['values']['format']
+            self.set_text(self.value_format % (self.base_text, self.value))
+
         self.font = font
         self.label_text = self.font.render(self.text, 1, font_color)
         self.label = self.create_label((255, 255, 255), (0, 0, 0))
@@ -66,6 +75,18 @@ class MenuItem():
 
     def decrement(self):
         self.set_increment(self.increment_value - self.increment_step)
+
+    def select_next_value(self):
+        index = self.value_list.index(self.value)
+        new_index = index + 1 if len(self.value_list) > index + 1 else index
+        self.value = self.value_list[new_index]
+        self.set_text(self.value_format % (self.base_text, self.value))
+
+    def select_previous_value(self):
+        index = self.value_list.index(self.value)
+        new_index = index - 1 if index - 1 > 0 else 0
+        self.value = self.value_list[new_index]
+        self.set_text(self.value_format % (self.base_text, self.value))
 
     def create_label(self, font_color, box_color):
         label_box = Surface((self.label_text.get_rect().width + 40, self.label_text.get_rect().height + 10))

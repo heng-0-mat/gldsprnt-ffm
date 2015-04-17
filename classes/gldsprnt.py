@@ -52,10 +52,17 @@ class Gldsprnt():
 
         # Optionsmenü festlegen
         options_menu_items = [
-            # {'text': 'Anzahl Spieler', 'increment': {'min': 2, 'max': 12, 'value': self.player_count, 'format':  u'%s: ‹%d›'}, 'action': self.set_player_count},
-            {'text': u'Rennlänge', 'increment': {'min': 10, 'max': 1000, 'value': self.race_length, 'step': 10, 'format': u'%s: ‹%dm›'}, 'action': self.set_race_length},
-            {'text': 'Rollenumfang', 'increment': {'min': 20.0, 'max': 70.0, 'value': self.diameter, 'step': 0.1, 'format': u'%s: ‹%0.1fcm›'}, 'action': self.set_diameter},
-            {'text': u'Zurück', 'action': self.load_main_menu}
+            {'text': u'Rennlänge',
+             'values': {'value_list': [10, 100, 250, 500, 1000], 'selected': self.race_length, 'format': u'%s: ‹%dm›'},
+             'action': self.set_race_length
+             },
+            {'text': 'Rollenumfang',
+             'increment': {'min': 20.0, 'max': 70.0, 'value': self.diameter, 'step': 0.1, 'format': u'%s: ‹%0.1fcm›'},
+             'action': self.set_diameter
+             },
+            {'text': u'Zurück',
+             'action': self.load_main_menu
+             }
         ]
 
         # Dictionary für alle Ergebnisse
@@ -122,11 +129,8 @@ class Gldsprnt():
         self.highscore = Highscore(self.screen, self.results, {'cancel': self.load_main_menu})
         self.set_gamestate('HIGHSCORE')
 
-    def set_player_count(self):
-        self.player_count = self.active_menu.items[self.active_menu.current_item].increment_value
-
     def set_race_length(self):
-        self.race_length = self.active_menu.items[self.active_menu.current_item].increment_value
+        self.race_length = self.active_menu.items[self.active_menu.current_item].value
 
     def set_diameter(self):
         self.diameter = self.active_menu.items[self.active_menu.current_item].increment_value

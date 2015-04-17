@@ -21,27 +21,7 @@ class Highscore():
         self.item_format = '%s %s %s %s'
 
         self.items_offset = 0
-        self.results = [
-            {'speed': 987.823090682293753, 'name': u'MaxMax', 'time': 4.601761817932129},
-            {'speed': 106.6705084780804835, 'name': u'Tim', 'time': 5.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'TimTimTim', 'time': 15.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'Hafti', 'time': 55.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'Nick', 'time': 75.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'Robin', 'time': 85.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'LaangerName', 'time': 105.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'Tim', 'time': 5.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'TimTimTim', 'time': 15.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'Hafti', 'time': 55.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'Nick', 'time': 75.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'Robin', 'time': 85.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'LaangerName', 'time': 105.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'Tim', 'time': 5.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'TimTimTim', 'time': 15.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'Hafti', 'time': 55.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'Nick', 'time': 75.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'Robin', 'time': 85.396889925003052},
-            {'speed': 6.6705084780804835, 'name': u'LaangerName', 'time': 105.396889925003052},
-        ]
+        self.results = results
 
         self.highscore_title = Label('Highscore', self.title_font, (68, 68, 68), (255, 255, 255))
         self.highscore_title.set_position(
