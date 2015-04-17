@@ -5,6 +5,7 @@ import pygame
 from pygame import Surface
 
 from classes.label import Label
+import classes.helpers as helpers
 
 
 class Highscore():
@@ -17,44 +18,38 @@ class Highscore():
 
         self.title_font_size = self.screen_height / 12
         self.title_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.title_font_size)
-        self.format = '%d. %s: %s'
-        self.items_offset = 0
+        self.item_format = '%s %s %s %s'
 
+        self.items_offset = 0
         self.results = [
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '500'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1'},
-            {'name': 'tim', 'time': '1:00', 'speed': '1000'},
+            {'speed': 987.823090682293753, 'name': u'MaxMax', 'time': 4.601761817932129},
+            {'speed': 106.6705084780804835, 'name': u'Tim', 'time': 5.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'TimTimTim', 'time': 15.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'Hafti', 'time': 55.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'Nick', 'time': 75.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'Robin', 'time': 85.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'LaangerName', 'time': 105.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'Tim', 'time': 5.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'TimTimTim', 'time': 15.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'Hafti', 'time': 55.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'Nick', 'time': 75.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'Robin', 'time': 85.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'LaangerName', 'time': 105.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'Tim', 'time': 5.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'TimTimTim', 'time': 15.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'Hafti', 'time': 55.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'Nick', 'time': 75.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'Robin', 'time': 85.396889925003052},
+            {'speed': 6.6705084780804835, 'name': u'LaangerName', 'time': 105.396889925003052},
         ]
-        self.sorted_results = sorted(self.results, key=lambda x: (int(x['speed'])))
 
         self.highscore_title = Label('Highscore', self.title_font, (68, 68, 68), (255, 255, 255))
         self.highscore_title.set_position(
             (self.screen_width / 2) - (self.highscore_title.width / 2),
-            (self.screen_height / 11) - (self.highscore_title.height / 2)
+            0
         )
-        self.highscore_height = self.screen_height - self.screen_height / 11
-        self.item_font_size = self.highscore_height / 11
+        self.highscore_height = self.screen_height - self.highscore_title.height
+        self.item_font_size = self.highscore_height / 12
         self.item_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.item_font_size)
 
         self.item_surface = None
@@ -70,10 +65,19 @@ class Highscore():
         self.item_surface = Surface((self.screen_width, self.highscore_height))
         self.item_surface.fill((68, 68, 68))
         first = self.items_offset
-        last = self.items_offset + 10 if len(self.results) > self.items_offset + 10 else len(self.results) - 1
+        last = self.items_offset + 10 if len(self.results) > self.items_offset + 10 else len(self.results)
         for i in range(first, last):
-            player = self.sorted_results[i]
-            highscore_item = self.item_font.render(self.format % (i + 1, player['name'], player['speed']), 1, (255, 255, 255))
+            player = self.results[i]
+            highscore_item = self.item_font.render(
+                self.item_format % (
+                    str(i + 1).rjust(2),
+                    player['name'].ljust(11),
+                    helpers.format_time(player['time']).rjust(7),
+                    helpers.format_speed(player['speed']).rjust(10)
+                ),
+                1,
+                (255, 255, 255)
+            )
             pos_x = (self.screen_width / 2) - (highscore_item.get_rect().width / 2)
             pos_y = (i - self.items_offset) * highscore_item.get_rect().height + highscore_item.get_rect().height / 2
             self.item_surface.blit(highscore_item, (pos_x, pos_y))

@@ -59,7 +59,7 @@ class Gldsprnt():
         ]
 
         # Dictionary für alle Ergebnisse
-        self.results = {}
+        self.results = []
 
         # Menü erzeugen
         self.main_menu = Menu(self.screen, main_menu_items)
@@ -133,7 +133,12 @@ class Gldsprnt():
 
     def commit_results(self):
         for player in self.race.players:
-            self.results.update({player.name: {'time': player.format_time(player.finish_time), 'speed': player.avg_speed}})
+            self.results.append(
+                {'name': player.name,
+                 'time': player.finish_time,
+                 'speed': player.avg_speed}
+            )
+        self.results = sorted(self.results, key=lambda x: (int(x['speed'])), reverse=True)[:10]
         self.load_highscore()
 
 

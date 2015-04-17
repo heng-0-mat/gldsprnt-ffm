@@ -2,6 +2,7 @@
 # !/usr/bin/python
 
 import os
+from math import modf
 
 
 def is_raspberry_pi():
@@ -9,3 +10,13 @@ def is_raspberry_pi():
         return True
     else:
         return False
+
+
+def format_time(time):
+    seconds = int(time)
+    milli_seconds = int(modf(time)[0] * 100)
+    return '%0d.%02ds' % (seconds, milli_seconds)
+
+
+def format_speed(speed):
+    return '%.2fkm/h' % speed
