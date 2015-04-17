@@ -155,11 +155,10 @@ class Gldsprnt():
 
         elif self.active_gamestate == "HIGHSCORE":
             for event in pygame.event.get():
-                if event.type == QUIT:
-                    sys.exit()
-                elif event.type == KEYDOWN:
+                if event.type == KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        self.set_gamestate('MENU')
+                        self.load_main_menu()
+                    #self.highscore.handle_keypress(event)
 
     def render(self, deltat):
         self.screen.fill((68, 68, 68))

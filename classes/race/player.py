@@ -45,7 +45,7 @@ class Player():
         )
 
         # Time
-        self.time_label = Label(self.current_time_text, self.font, (68, 68, 68), (255, 255, 255), (0, 0), 'clock-grey')
+        self.time_label = Label(self.current_time_text, self.font, (68, 68, 68), (255, 255, 255), (0, 0), 'time-grey')
         self.time_label.set_position(
             self.pos_x + self.screen_width - self.time_label.width - self.screen_width / 60,
             self.pos_y + self.time_label.height + self.screen_width / 60 + self.screen_width / 60

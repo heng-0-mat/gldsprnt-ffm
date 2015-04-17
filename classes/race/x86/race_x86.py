@@ -11,8 +11,6 @@ from classes.race.player import Player
 class RaceX86(Race):
 
     def __init__(self, screen, players, race_length, diameter, actions):
-        print('Race running in x86-Test-Mode (Keyboard-Input required)')
-
         Race.__init__(self, screen, race_length, diameter, actions)
 
         self.players.append(

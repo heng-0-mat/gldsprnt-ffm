@@ -9,8 +9,6 @@ from classes.race.arm.player_arm import PlayerARM
 class RaceARM(Race):
 
     def __init__(self, screen, players, race_length, diameter, actions):
-        print('Race running in ARM-Mode (RaspberryPi with GPIO required!)')
-
         Race.__init__(self, screen, race_length, diameter, actions)
 
         self.players.append(
