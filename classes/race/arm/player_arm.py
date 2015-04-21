@@ -20,6 +20,6 @@ class PlayerARM(Player):
         Player.update(self, deltat)
 
     def handle_progress(self, ticks):
-        if self.finished:
+        if self.event_count >= self.full_ticks:
             self.bike_observer.stop_listening()
         Player.handle_progress(self, ticks)
