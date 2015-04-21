@@ -7,9 +7,9 @@ from classes.race.arm.bike_observer import BikeObserver
 
 class PlayerARM(Player):
 
-    def __init__(self, screen, name, color, pos_x, pos_y, race_length, diameter, gpio_port):
+    def __init__(self, screen, name, color, pos_x, pos_y, race_length, diameter, gpio_port, background=''):
         # Super-Klassen-Aufruf
-        Player.__init__(self, screen, name, color, pos_x, pos_y, race_length, diameter)
+        Player.__init__(self, screen, name, color, pos_x, pos_y, race_length, diameter, background)
 
         # Port festlegen und GPIO aktivieren
         self.gpio_port = gpio_port
