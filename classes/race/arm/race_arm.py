@@ -44,3 +44,8 @@ class RaceARM(Race):
                 for player in self.players:
                     player.bike_observer.stop_listening()
         Race.handle_input_data(self, event)
+
+    def finish_race(self):
+        for player in self.players:
+            player.bike_observer.stop_listening()
+        Race.finish_race(self)

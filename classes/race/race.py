@@ -47,7 +47,7 @@ class Race():
             self.countdown.update(deltat)
         if self.race_status == 'RUNNING':
             if self.players[0].finished and self.players[1].finished:
-                self.set_race_status('FINISHED')
+                self.finish_race()
 
     def render(self, deltat):
         # Player rendern
@@ -106,3 +106,6 @@ class Race():
             (self.screen_width / 2) - (self.information_label.width / 2),
             (self.screen_height - self.information_label.height)
         )
+
+    def finish_race(self):
+        self.set_race_status('FINISHED')
