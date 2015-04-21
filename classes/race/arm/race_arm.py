@@ -20,7 +20,8 @@ class RaceARM(Race):
                 0,
                 self.race_length,
                 self.diameter,
-                23
+                23,
+                'bg_1'
             )
         )
         self.players.append(
@@ -32,7 +33,8 @@ class RaceARM(Race):
                 self.screen_height / 2,
                 self.race_length,
                 self.diameter,
-                24
+                24,
+                'bg_2'
             )
         )
 
