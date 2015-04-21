@@ -66,8 +66,10 @@ class Gldsprnt():
              }
         ]
 
-        # Dictionary für alle Ergebnisse
-        self.results = []
+        # Dictionary für alle Ergebnisse sortiert nach Rennlänge
+        self.highscore_list = []
+        for length in self.race_length_values:
+            self.highscore_list.append({'length': length, 'results': []})
 
         # Menü erzeugen
         self.main_menu = Menu(self.screen, main_menu_items)
@@ -101,7 +103,7 @@ class Gldsprnt():
 
     def load_pre_game(self):
         self.set_gamestate("PREGAME")
-        self.pre_game = PreGame(self.screen, {'success': self.load_race_view, 'cancel': self.load_main_menu}, self.results)
+        self.pre_game = PreGame(self.screen, {'success': self.load_race_view, 'cancel': self.load_main_menu}, self.highscore_list)
 
     def load_race_view(self):
         players = [
@@ -127,7 +129,11 @@ class Gldsprnt():
         self.set_gamestate("GAME")
 
     def load_highscore(self):
-        self.highscore = Highscore(self.screen, self.results, {'cancel': self.load_main_menu})
+        self.highscore = Highscore(self.screen,
+                                   self.race_length_values,
+                                   self.highscore_list,
+                                   {'cancel': self.load_main_menu},
+                                   self.race_length_values.index(self.race_length))
         self.set_gamestate('HIGHSCORE')
 
     def set_race_length(self):
@@ -137,15 +143,17 @@ class Gldsprnt():
         self.diameter = self.active_menu.items[self.active_menu.current_item].increment_value
 
     def commit_results(self):
+        highscore_list = helpers.build_dict(self.highscore_list, key='length')
         for player in self.race.players:
-            self.results.append(
+            highscore_list[self.race.race_length]['results'].append(
                 {'name': player.name,
                  'time': player.finish_time,
                  'speed': player.avg_speed}
             )
-        self.results = sorted(self.results, key=lambda x: (int(x['speed'])), reverse=True)[:10]
+        highscore_list[self.race.race_length]['results'] = sorted(highscore_list[self.race.race_length]['results'],
+                                                                  key=lambda x: (int(x['speed'])),
+                                                                  reverse=True)[:10]
         self.load_highscore()
-
 
     def set_gamestate(self, gamestate):
         self.prev_gamestate = self.active_gamestate

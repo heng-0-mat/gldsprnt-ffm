@@ -10,7 +10,7 @@ import classes.helpers as helpers
 
 class Highscore():
 
-    def __init__(self, screen, results, actions):
+    def __init__(self, screen, race_lengths, results, actions, current_item=3):
         self.screen = screen
         self.screen_width = self.screen.get_rect().width
         self.screen_height = self.screen.get_rect().height
@@ -18,12 +18,19 @@ class Highscore():
 
         self.title_font_size = self.screen_height / 12
         self.title_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.title_font_size)
+        self.title_format = 'Highscore %dm'
         self.item_format = '%s %s %s %s'
 
-        self.items_offset = 0
         self.results = results
+        self.race_lengths = race_lengths
+        self.current_race_length = current_item
 
-        self.highscore_title = Label('Highscore', self.title_font, (68, 68, 68), (255, 255, 255))
+        self.highscore_title = Label(
+            self.title_format % self.race_lengths[self.current_race_length],
+            self.title_font,
+            (68, 68, 68),
+            (255, 255, 255)
+        )
         self.highscore_title.set_position(
             (self.screen_width / 2) - (self.highscore_title.width / 2),
             0
@@ -33,6 +40,7 @@ class Highscore():
         self.item_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.item_font_size)
 
         self.item_surface = None
+        self.current_highscore_items = None
         self.fill_item_surface()
 
     def render(self, deltat):
@@ -42,12 +50,11 @@ class Highscore():
         self.screen.blit(self.highscore_title.label, self.highscore_title.position)
 
     def fill_item_surface(self):
+        self.current_highscore_items = self.get_highscore_for_length()
         self.item_surface = Surface((self.screen_width, self.highscore_height))
         self.item_surface.fill((68, 68, 68))
-        first = self.items_offset
-        last = self.items_offset + 10 if len(self.results) > self.items_offset + 10 else len(self.results)
-        for i in range(first, last):
-            player = self.results[i]
+        for i in range(0, len(self.current_highscore_items)):
+            player = self.current_highscore_items[i]
             highscore_item = self.item_font.render(
                 self.item_format % (
                     str(i + 1).rjust(2),
@@ -59,16 +66,32 @@ class Highscore():
                 (255, 255, 255)
             )
             pos_x = (self.screen_width / 2) - (highscore_item.get_rect().width / 2)
-            pos_y = (i - self.items_offset) * highscore_item.get_rect().height + highscore_item.get_rect().height / 2
+            pos_y = i * highscore_item.get_rect().height + highscore_item.get_rect().height / 2
             self.item_surface.blit(highscore_item, (pos_x, pos_y))
 
     def handle_keypress(self, event):
         if event.key == pygame.K_ESCAPE:
             self.actions['cancel']()
         elif event.key == pygame.K_DOWN:
-            if len(self.results) > self.items_offset + 10:
-                self.items_offset += 10
-            self.fill_item_surface()
+            if self.current_race_length + 1 < len(self.race_lengths):
+                self.current_race_length += 1
+                self.fill_item_surface()
+                self.highscore_title.set_text(self.title_format % self.race_lengths[self.current_race_length])
+                self.highscore_title.set_position(
+                    (self.screen_width / 2) - (self.highscore_title.width / 2),
+                    0
+                )
         elif event.key == pygame.K_UP:
-            self.items_offset = self.items_offset - 10 if self.items_offset - 10 > 0 else 0
-            self.fill_item_surface()
+            if self.current_race_length > 0:
+                self.current_race_length -= 1
+                self.fill_item_surface()
+                self.highscore_title.set_text(self.title_format % self.race_lengths[self.current_race_length])
+                self.highscore_title.set_position(
+                    (self.screen_width / 2) - (self.highscore_title.width / 2),
+                    0
+                )
+                self.fill_item_surface()
+
+    def get_highscore_for_length(self):
+        highscore_list = helpers.build_dict(self.results, key='length')
+        return highscore_list[self.race_lengths[self.current_race_length]]['results']

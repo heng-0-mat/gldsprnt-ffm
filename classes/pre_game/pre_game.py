@@ -33,7 +33,7 @@ class PreGame():
         self.active_cursor = '_'
 
     def update(self, deltat):
-        self.validate_names()
+        #self.validate_names()
         for pre_game_item in self.pre_game_items:
             pre_game_item.deactivate()
             pre_game_item.update(deltat)

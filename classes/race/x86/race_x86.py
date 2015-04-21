@@ -21,7 +21,8 @@ class RaceX86(Race):
                 0,
                 0,
                 self.race_length,
-                self.diameter
+                self.diameter,
+                'bg_1'
             )
         )
         self.players.append(
@@ -32,7 +33,8 @@ class RaceX86(Race):
                 0,
                 self.screen_height / 2,
                 self.race_length,
-                self.diameter
+                self.diameter,
+                'bg_2'
             )
         )
 

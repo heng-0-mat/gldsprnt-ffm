@@ -13,7 +13,7 @@ from classes.race.speedo import Speedo
 
 class Player():
 
-    def __init__(self, screen, name, color, pos_x, pos_y, race_length, diameter):
+    def __init__(self, screen, name, color, pos_x, pos_y, race_length, diameter, background=''):
         self.screen = screen
         self.screen_width = screen.get_rect().width
         self.screen_height = screen.get_rect().height
@@ -56,7 +56,8 @@ class Player():
             self.screen,
             self.color,
             pos_x,
-            pos_y
+            pos_y,
+            background
         )
 
         # Speedo
