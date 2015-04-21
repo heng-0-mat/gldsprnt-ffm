@@ -33,8 +33,11 @@ class Progress():
         # HIntergrund für ProgressBar
         self.background_image = None
         if image != '':
-            bg = pygame.image.load(os.path.join('images', image + '.png'))
-            self.background_image = pygame.transform.scale(bg, (bg.get_rect().width * self.height / bg.get_rect().height, self.height))
+            if self.height == 384:
+                bg = pygame.image.load(os.path.join('images', image + '_384.png'))
+            else:
+                bg = pygame.image.load(os.path.join('images', image + '_540.png'))
+            self.background_image = bg if self.height == 384 else pygame.transform.smoothscale(bg, (bg.get_rect().width * self.height / bg.get_rect().height, self.height))
 
     def set_progress(self, progress):
         self.progress = progress
