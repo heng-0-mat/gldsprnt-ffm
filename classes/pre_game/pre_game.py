@@ -33,7 +33,7 @@ class PreGame():
         self.active_cursor = '_'
 
     def update(self, deltat):
-        #self.validate_names()
+        self.validate_names()
         for pre_game_item in self.pre_game_items:
             pre_game_item.deactivate()
             pre_game_item.update(deltat)
@@ -80,13 +80,15 @@ class PreGame():
     def validate_names(self):
         error = False
         for player_name in self.pre_game_items:
-            if player_name.input_text.lower() in self.recent_players:
-                player_name.set_error_text('Name schon vorhanden.')
+            #if player_name.input_text.lower() in self.recent_players:
+            #    player_name.set_error_text('Name schon vorhanden.')
+            #    error = True
+            #else:
+            #    player_name.set_error_text('')
+            if player_name.input_text == '':
                 error = True
             else:
                 player_name.set_error_text('')
-            if player_name.input_text == '':
-                error = True
         if error:
             self.validation_error = True
         else:
