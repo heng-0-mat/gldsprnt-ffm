@@ -98,4 +98,4 @@ class Player():
     def format_time(self, timer):
         seconds = int(timer)
         milli_seconds = int(modf(timer)[0] * 100)
-        return ('%0d.%02ds' % (seconds, milli_seconds)).rjust(7)
+        return ('%0d.%02ds' % (seconds, milli_seconds)).rjust(11)
