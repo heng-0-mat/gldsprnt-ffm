@@ -49,7 +49,7 @@ class Gldsprnt():
         # self.player_count = 2
         self.race_length_values = [10, 100, 200, 250, 500, 1000]
         self.race_length = self.race_length_values[3]
-        self.diameter = 32.0
+        self.diameter = 32.3
 
         # Optionsmenü festlegen
         options_menu_items = [
