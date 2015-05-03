@@ -22,8 +22,20 @@ class PreGame():
 
         # PreGameItems
         self.pre_game_items = [
-            PreGameItem(self.screen, {'description': 'Spieler 1:'}, 0, 0),
-            PreGameItem(self.screen, {'description': 'Spieler 2:'}, 0, self.screen_height / 2)
+            PreGameItem(
+                self.screen,
+                {'description': 'Spieler 1:'},
+                0,
+                0,
+                (255, 0, 0)
+            ),
+            PreGameItem(
+                self.screen,
+                {'description': 'Spieler 2:'},
+                0,
+                self.screen_height / 2,
+                (0, 0, 255)
+            )
         ]
 
         # Aktiven Input festlegen (default: 0 => entspricht erstem Item)

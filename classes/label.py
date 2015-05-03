@@ -46,7 +46,7 @@ class Label():
         if self.icon == '':
             label_box.blit(label_text, (20, 10))
         else:
-            label_icon = pygame.transform.scale(pygame.image.load(os.path.join('icons', '%s.png' % self.icon)), (label_icon_size, label_icon_size))
+            label_icon = pygame.transform.smoothscale(pygame.image.load(os.path.join('icons', '%s.png' % self.icon)), (label_icon_size, label_icon_size))
             label_box.blit(label_icon, (20, 10))
             label_box.blit(label_text, (label_icon_size + label_icon_width + 20, 10))
         return label_box

@@ -38,7 +38,7 @@ class Player():
         self.avg_speed = None
 
         # Namenslabel
-        self.name_label = Label(self.name, self.font, (68, 68, 68), (255, 255, 255), (0, 0))
+        self.name_label = Label(self.name, self.font, self.color, (255, 255, 255), (0, 0))
         self.name_label.set_position(
             self.pos_x + self.screen_width / 60,
             self.pos_y + self.screen_width / 60

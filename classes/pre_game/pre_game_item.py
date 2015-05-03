@@ -7,11 +7,12 @@ from classes.label import Label
 
 class PreGameItem():
 
-    def __init__(self, screen, item, pos_x, pos_y):
+    def __init__(self, screen, item, pos_x, pos_y, player_color=(68, 68, 68)):
         self.screen = screen
         self.display_height = self.screen.get_height() / 2
         self.display_width = self.screen.get_width()
         self.font_size = self.screen.get_height() / 10
+        self.title_size = self.display_height / 2
 
         self.pos_x = pos_x
         self.pos_y = pos_y
@@ -22,7 +23,7 @@ class PreGameItem():
 
         # Beschreibungs-Zeile
         self.description_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
-        self.description = Label(self.item['description'], self.description_font, (255, 255, 255), (68, 68, 68))
+        self.description = Label(self.item['description'], self.description_font, player_color, (255, 255, 255))
 
         # Input-Zeile
         self.input_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
