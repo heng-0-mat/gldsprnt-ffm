@@ -27,14 +27,14 @@ class PreGame():
                 {'description': 'Spieler 1:'},
                 0,
                 0,
-                (255, 0, 0)
+                'bike-red-c'
             ),
             PreGameItem(
                 self.screen,
                 {'description': 'Spieler 2:'},
                 0,
                 self.screen_height / 2,
-                (0, 0, 255)
+                'bike-blue-c'
             )
         ]
 
@@ -91,16 +91,9 @@ class PreGame():
 
     def validate_names(self):
         error = False
-        for player_name in self.pre_game_items:
-            #if player_name.input_text.lower() in self.recent_players:
-            #    player_name.set_error_text('Name schon vorhanden.')
-            #    error = True
-            #else:
-            #    player_name.set_error_text('')
-            if player_name.input_text == '':
+        for pregame_item in self.pre_game_items:
+            if pregame_item.input_text == '':
                 error = True
-            else:
-                player_name.set_error_text('')
         if error:
             self.validation_error = True
         else:

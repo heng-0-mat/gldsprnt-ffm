@@ -2,17 +2,18 @@
 # !/usr/bin/python
 
 import pygame
+import os
 from classes.label import Label
 
 
 class PreGameItem():
 
-    def __init__(self, screen, item, pos_x, pos_y, player_color=(68, 68, 68)):
+    def __init__(self, screen, item, pos_x, pos_y, icon=""):
         self.screen = screen
         self.display_height = self.screen.get_height() / 2
         self.display_width = self.screen.get_width()
         self.font_size = self.screen.get_height() / 10
-        self.title_size = self.display_height / 2
+        self.title_size = self.display_height
 
         self.pos_x = pos_x
         self.pos_y = pos_y
@@ -21,34 +22,23 @@ class PreGameItem():
         self.input_text = ''
         self.input_format = '%s'
 
-        # Beschreibungs-Zeile
-        self.description_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
-        self.description = Label(self.item['description'], self.description_font, player_color, (255, 255, 255))
+        # Player-Bild
+        self.player_icon = None
+        if icon != '':
+            image = pygame.image.load(os.path.join('icons', '%s.png' % icon))
+            self.player_icon = pygame.transform.smoothscale(
+                image,
+                (image.get_rect().width * self.display_height / image.get_rect().height, self.display_height)
+            )
+            self.player_icon_position = (self.display_width / 2 - self.player_icon.get_rect().width / 2, self.pos_y)
 
         # Input-Zeile
         self.input_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
         self.input = Label(self.input_format % self.input_text, self.input_font, (68, 68, 68), (255, 255, 255))
 
-        # Fehler-Zeile
-        self.error_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.screen.get_height() / 18)
-        self.error_text = ''
-        self.error = Label(self.error_text, self.error_font, (255, 0, 0))
-
-        # Höhe aller Elemente
-        self.total_height = self.description.height + self.input.height + self.error.height
-
-        # Labels Positionieren
-        self.description.set_position(
-            self.display_width / 2 + self.pos_x - self.description.width / 2,
-            self.pos_y
-        )
         self.input.set_position(
             self.display_width / 2 + self.pos_x - self.input.width / 2,
-            self.pos_y + self.description.height + 2
-        )
-        self.error.set_position(
-            self.display_width / 2 + self.pos_x - self.error.width / 2,
-            self.pos_y + self.description.height + self.input.height + 4
+            self.pos_y + self.display_height / 2 - self.input.height / 2
         )
 
     def activate_input(self):
@@ -64,29 +54,21 @@ class PreGameItem():
     def delete_last_char(self):
         self.input_text = self.input_text[:-1]
 
-    def set_error_text(self, text):
-        self.error.set_text(text)
-        self.error.set_position(
-            self.display_width / 2 + self.pos_x - self.error.width / 2,
-            self.pos_y + self.description.height + self.input.height + 4
-        )
-
     def update(self, deltat):
         self.input.set_text(self.input_format % self.input_text)
         self.input.set_position(
             self.display_width / 2 + self.pos_x - self.input.width / 2,
-            self.pos_y + self.description.height + 2
+            self.pos_y + self.display_height / 2 - self.input.height / 2
         )
 
     def render(self, deltat):
-        self.screen.blit(self.description.label, self.description.position)
+        self.screen.blit(self.player_icon, self.player_icon_position)
         self.screen.blit(self.input.label, self.input.position)
-        self.screen.blit(self.error.label, self.error.position)
 
     def activate(self):
         self.input.set_font_color((68, 68, 68))
         self.input.set_background_color((255, 255, 255))
 
     def deactivate(self):
-        self.input.set_font_color((255, 255, 255))
-        self.input.set_background_color((68, 68, 68))
+        self.input.set_font_color((68, 68, 68))
+        self.input.set_background_color((255, 255, 255))
