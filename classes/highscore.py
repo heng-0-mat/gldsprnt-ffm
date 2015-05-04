@@ -21,6 +21,8 @@ class Highscore():
         self.title_format = 'Highscore %dm'
         self.item_format = '%s %s %s %s'
 
+        self.item_offset = 0
+
         self.results = results
         self.race_lengths = race_lengths
         self.current_race_length = current_item
@@ -53,12 +55,14 @@ class Highscore():
         self.current_highscore_items = self.get_highscore_for_length()
         self.item_surface = Surface((self.screen_width, self.highscore_height))
         self.item_surface.fill((68, 68, 68))
-        for i in range(0, len(self.current_highscore_items)):
+        last_item = self.item_offset + 10 if len(self.current_highscore_items) + 10 < len(self.current_highscore_items) else len(self.current_highscore_items)
+        position = 0
+        for i in range(self.item_offset, last_item):
             player = self.current_highscore_items[i]
             highscore_item = self.item_font.render(
                 self.item_format % (
                     str(i + 1).rjust(2),
-                    player['name'].ljust(11),
+                    player['name'].ljust(12),
                     helpers.format_time(player['time']).rjust(7),
                     helpers.format_speed(player['speed']).rjust(10)
                 ),
@@ -66,14 +70,16 @@ class Highscore():
                 (255, 255, 255)
             )
             pos_x = (self.screen_width / 2) - (highscore_item.get_rect().width / 2)
-            pos_y = i * highscore_item.get_rect().height + highscore_item.get_rect().height / 2
+            pos_y = position * highscore_item.get_rect().height + highscore_item.get_rect().height / 2
             self.item_surface.blit(highscore_item, (pos_x, pos_y))
+            position += 1
 
     def handle_keypress(self, event):
         if event.key == pygame.K_ESCAPE:
             self.actions['cancel']()
-        elif event.key == pygame.K_DOWN:
+        elif event.key == pygame.K_RIGHT:
             if self.current_race_length + 1 < len(self.race_lengths):
+                self.item_offset = 0
                 self.current_race_length += 1
                 self.fill_item_surface()
                 self.highscore_title.set_text(self.title_format % self.race_lengths[self.current_race_length])
@@ -81,8 +87,9 @@ class Highscore():
                     (self.screen_width / 2) - (self.highscore_title.width / 2),
                     0
                 )
-        elif event.key == pygame.K_UP:
+        elif event.key == pygame.K_LEFT:
             if self.current_race_length > 0:
+                self.item_offset = 0
                 self.current_race_length -= 1
                 self.fill_item_surface()
                 self.highscore_title.set_text(self.title_format % self.race_lengths[self.current_race_length])
@@ -92,6 +99,14 @@ class Highscore():
                 )
                 self.fill_item_surface()
 
+        elif event.key == pygame.K_UP:
+            self.item_offset -= 1 if self.item_offset > 0 else 0
+            self.fill_item_surface()
+
+        elif event.key == pygame.K_DOWN:
+            if self.item_offset + 1 < len(self.current_highscore_items) - 10:
+                self.item_offset += 1
+            self.fill_item_surface()
+
     def get_highscore_for_length(self):
-        highscore_list = helpers.build_dict(self.results, key='length')
-        return highscore_list[self.race_lengths[self.current_race_length]]['results']
+        return self.results[self.race_lengths[self.current_race_length]]

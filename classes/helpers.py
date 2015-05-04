@@ -20,7 +20,3 @@ def format_time(time):
 
 def format_speed(speed):
     return '%.2fkm/h' % speed
-
-
-def build_dict(seq, key):
-    return dict((d[key], dict(d, index=i)) for (i, d) in enumerate(seq))
