@@ -48,7 +48,10 @@ class Race():
         if self.race_status == 'RUNNING':
             if self.players[0].finished and self.players[1].finished:
                 self.finish_race()
-
+            elif self.players[0].finished:
+                self.players[0].set_winner()
+            elif self.players[1].finished:
+                self.players[1].set_winner()
     def render(self, deltat):
         # Player rendern
         for player in self.players:
@@ -56,8 +59,10 @@ class Race():
         # Info-Label rendern
         if self.race_status == 'READY':
             self.screen.blit(self.information_label.label, self.information_label.position)
-        if self.race_status == 'COUNTDOWN':
+        elif self.race_status == 'COUNTDOWN':
             self.countdown.render(deltat)
+        elif self.race_status == 'FINISHED':
+            self.screen.blit(self.information_label.label, self.information_label.position)
 
     def set_race_status(self, status):
         self.race_status = status
@@ -108,4 +113,9 @@ class Race():
         )
 
     def finish_race(self):
+        self.information_label.set_text(u'Weiter mit Return …')
+        self.information_label.set_position(
+            (self.screen_width / 2) - (self.information_label.width / 2),
+            (self.screen_height - self.information_label.height)
+        )
         self.set_race_status('FINISHED')

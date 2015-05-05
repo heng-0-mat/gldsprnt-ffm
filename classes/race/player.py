@@ -44,6 +44,16 @@ class Player():
             self.pos_y + self.screen_width / 60
         )
 
+        # Label für Gewinner
+        self.winner_label = Label('Winner', self.font, (68, 68, 68), (255, 255, 255))
+        self.winner_label.set_position(
+            self.pos_x + self.screen_width / 60,
+            self.pos_y + 2 * self.screen_width / 60 + self.name_label.height
+        )
+        self.winner = False
+        self.show_winner = False
+        self.winner_ticker = 600
+
         # Time
         self.time_label = Label(self.current_time_text, self.font, (68, 68, 68), (255, 255, 255), (0, 0), 'time-grey')
         self.time_label.set_position(
@@ -69,12 +79,20 @@ class Player():
             self.time_label.set_text(self.format_time(self.get_current_time()))
         if not self.finished:
             self.speedo.update()
+        if self.winner:
+            if self.winner_ticker > 500:
+                self.show_winner = not self.show_winner
+                self.winner_ticker = 0
+            else:
+                self.winner_ticker += deltat
 
     def render(self, deltat):
         self.progress_bar.render()
         self.screen.blit(self.name_label.label, self.name_label.position)
         self.screen.blit(self.time_label.label, self.time_label.position)
         self.speedo.render()
+        if self.show_winner:
+            self.screen.blit(self.winner_label.label, self.winner_label.position)
 
     def handle_progress(self, ticks):
         if self.running:
@@ -99,3 +117,6 @@ class Player():
         seconds = int(timer)
         milli_seconds = int(modf(timer)[0] * 100)
         return ('%0d.%02ds' % (seconds, milli_seconds)).rjust(11)
+
+    def set_winner(self):
+        self.winner = True
