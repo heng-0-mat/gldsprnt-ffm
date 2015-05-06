@@ -109,4 +109,4 @@ class Highscore():
             self.fill_item_surface()
 
     def get_highscore_for_length(self):
-        return self.results[self.race_lengths[self.current_race_length]]
+        return self.results[str(self.race_lengths[self.current_race_length])]

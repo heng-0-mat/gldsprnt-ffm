@@ -4,6 +4,7 @@
 import sys
 
 import pygame
+import json
 from pygame.locals import *
 
 from classes.menu.menu import Menu
@@ -67,9 +68,15 @@ class Gldsprnt():
         ]
 
         # Dictionary für alle Ergebnisse sortiert nach Rennlänge
-        self.highscore_list = {}
-        for length in self.race_length_values:
-            self.highscore_list[length] = []
+        self.highscore_list = None
+
+        # Falls vorhanden alte Spielstände laden
+        with open('highscore.json') as data_file:
+            try:
+                data = json.load(data_file)
+                self.highscore_list = data
+            except ValueError:  # includes simplejson.decoder.JSONDecodeError
+                self.reset_highscore()
 
         # Menü erzeugen
         self.main_menu = Menu(self.screen, main_menu_items)
@@ -144,15 +151,29 @@ class Gldsprnt():
 
     def commit_results(self):
         for player in self.race.players:
-            self.highscore_list[self.race.race_length].append(
+            self.highscore_list[str(self.race.race_length)].append(
                 {'name': player.name,
                  'time': player.finish_time,
                  'speed': player.avg_speed}
             )
-        self.highscore_list[self.race.race_length] = sorted(self.highscore_list[self.race.race_length],
+        self.highscore_list[str(self.race.race_length)] = sorted(self.highscore_list[str(self.race.race_length)],
                                                             key=lambda x: (x['speed']),
                                                             reverse=True)
+        self.save_highscore_to_file()
         self.load_highscore()
+
+    def reset_highscore(self):
+        self.highscore_list = {}
+        for length in self.race_length_values:
+            self.highscore_list[str(length)] = []
+        self.save_highscore_to_file()
+
+    def save_highscore_to_file(self):
+        # Highscore in String umwandeln und in Datei ablegen
+        highscore_string = json.dumps(self.highscore_list)
+        with open('highscore.json', 'w') as score_file:
+            score_file.write(highscore_string)
+
 
     def set_gamestate(self, gamestate):
         self.prev_gamestate = self.active_gamestate
