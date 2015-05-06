@@ -62,6 +62,9 @@ class Gldsprnt():
              'increment': {'min': 20.0, 'max': 70.0, 'value': self.diameter, 'step': 0.1, 'format': u'%s: ‹%0.1fcm›'},
              'action': self.set_diameter
              },
+            {'text': 'Reset Highscore',
+             'action': self.reset_highscore
+             },
             {'text': u'Zurück',
              'action': self.load_main_menu
              }
