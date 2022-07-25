@@ -18,7 +18,7 @@ class Player():
         self.screen_width = screen.get_rect().width
         self.screen_height = screen.get_rect().height
 
-        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.screen_height / 12)
+        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', round(self.screen_height / 12))
 
         self.race_length = race_length
         self.diameter = diameter

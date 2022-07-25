@@ -20,9 +20,9 @@ class Race():
         self.screen_width = self.screen.get_rect().width
         self.screen_height = self.screen.get_rect().height
 
-        self.font_size = self.screen_height / 9
+        self.font_size = round(self.screen_height / 9)
         self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
-        self.information_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size * 3 / 7)
+        self.information_font = pygame.font.Font('fonts/UbuntuMono.ttf', round(self.font_size * 3 / 7))
 
         self.race_length = race_length
         self.diameter = diameter
@@ -52,6 +52,7 @@ class Race():
                 self.players[0].set_winner()
             elif self.players[1].finished:
                 self.players[1].set_winner()
+                
     def render(self, deltat):
         # Player rendern
         for player in self.players:

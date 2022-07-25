@@ -16,7 +16,7 @@ class Highscore():
         self.screen_height = self.screen.get_rect().height
         self.actions = actions
 
-        self.title_font_size = self.screen_height / 12
+        self.title_font_size = round(self.screen_height / 12)
         self.title_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.title_font_size)
         self.title_format = 'Highscore %dm'
         self.item_format = '%s %s %s %s'
@@ -38,7 +38,7 @@ class Highscore():
             0
         )
         self.highscore_height = self.screen_height - self.highscore_title.height
-        self.item_font_size = self.highscore_height / 12
+        self.item_font_size = round(self.highscore_height / 12)
         self.item_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.item_font_size)
 
         self.item_surface = None

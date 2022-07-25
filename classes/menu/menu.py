@@ -5,7 +5,7 @@ import pygame
 import time
 import math
 
-from menu_item import MenuItem
+from classes.menu.menu_item import MenuItem
 
 
 class Menu():
@@ -17,7 +17,7 @@ class Menu():
         self.screen = screen
         self.screen_width = self.screen.get_rect().width
         self.screen_height = self.screen.get_rect().height
-        self.font_size = screen.get_height() / 10
+        self.font_size = round(screen.get_height() / 10)
         if self.font_size * len(items) > self.screen_height:
             self.font_size = self.screen_height / (len(items) + 1)
         self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)

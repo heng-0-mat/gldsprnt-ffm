@@ -12,7 +12,7 @@ class PreGameItem():
         self.screen = screen
         self.display_height = self.screen.get_height() / 2
         self.display_width = self.screen.get_width()
-        self.font_size = self.screen.get_height() / 10
+        self.font_size = round(self.screen.get_height() / 10)
         self.title_size = self.display_height
 
         self.pos_x = pos_x
@@ -24,11 +24,12 @@ class PreGameItem():
 
         # Player-Bild
         self.player_icon = None
+        
         if icon != '':
             image = pygame.image.load(os.path.join('icons', '%s.png' % icon))
             self.player_icon = pygame.transform.smoothscale(
                 image,
-                (image.get_rect().width * self.display_height / image.get_rect().height, self.display_height)
+                (int(image.get_rect().width * self.display_height / image.get_rect().height), int(self.display_height))
             )
             self.player_icon_position = (self.display_width / 2 - self.player_icon.get_rect().width / 2, self.pos_y)
 

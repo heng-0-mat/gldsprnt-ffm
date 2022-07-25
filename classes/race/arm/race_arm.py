@@ -20,7 +20,7 @@ class RaceARM(Race):
                 0,
                 self.race_length,
                 self.diameter,
-                23,
+                19,
                 'bg_1'
             )
         )
@@ -33,7 +33,7 @@ class RaceARM(Race):
                 self.screen_height / 2,
                 self.race_length,
                 self.diameter,
-                24,
+                21,
                 'bg_2'
             )
         )

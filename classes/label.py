@@ -8,7 +8,7 @@ from pygame import Surface, Color
 
 class Label():
 
-    def __init__(self, text, font, font_color=(255, 255, 255), bg_color=(68, 68, 68), (pos_x, pos_y)=(0, 0), icon=""):
+    def __init__(self, text, font, font_color=(255, 255, 255), bg_color=(68, 68, 68), pos_x=0, pos_y=0, icon=""):
         self.text = text
         self.font = font
         self.font_color = font_color

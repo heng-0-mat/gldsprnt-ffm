@@ -6,7 +6,7 @@ from pygame import Surface
 
 class MenuItem():
 
-    def __init__(self, item, font, font_color, (pos_x, pos_y)=(0, 0)):
+    def __init__(self, item, font, font_color, pos_x=0, pos_y=0):
         self.item = item
         self.base_text = item["text"]
         self.text = item["text"]
