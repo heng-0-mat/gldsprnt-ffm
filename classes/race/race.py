@@ -2,13 +2,13 @@
 # !/usr/bin/python
 
 import time
-
 import pygame
-from pygame import Color
 
+from pygame import Color
 from classes.race.countdown import Countdown
 from classes.label import Label
 
+from config import FONT
 
 class Race():
 
@@ -21,8 +21,8 @@ class Race():
         self.screen_height = self.screen.get_rect().height
 
         self.font_size = round(self.screen_height / 9)
-        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
-        self.information_font = pygame.font.Font('fonts/UbuntuMono.ttf', round(self.font_size * 3 / 7))
+        self.font = pygame.font.Font(FONT, self.font_size)
+        self.information_font = pygame.font.Font(FONT, round(self.font_size * 3 / 7))
 
         self.race_length = race_length
         self.diameter = diameter

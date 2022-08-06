@@ -37,7 +37,8 @@ class Progress():
                 bg = pygame.image.load(os.path.join('images', image + '_384.png'))
             else:
                 bg = pygame.image.load(os.path.join('images', image + '_540.png'))
-            self.background_image = bg if self.height == 384 else pygame.transform.smoothscale(bg, (bg.get_rect().width * self.height / bg.get_rect().height, self.height))
+            self.background_image = bg if self.height == 384 else pygame.transform.smoothscale(
+                bg, (int(bg.get_rect().width * self.height / bg.get_rect().height), int(self.height)))
 
     def set_progress(self, progress):
         self.progress = progress
