@@ -44,6 +44,7 @@ class Label():
         label_box = Surface((label_text.get_rect().width + label_icon_size + label_icon_width + 40, label_text.get_rect().height + 20))
         if self.bg_color is not None:
             label_box.fill(self.bg_color)
+            label_box-set_alpha(128)
         if self.icon == '':
             label_box.blit(label_text, (20, 10))
         else:
