@@ -4,6 +4,7 @@
 import pygame
 import os
 from classes.label import Label
+from config import FONT
 
 
 class PreGameItem():
@@ -34,7 +35,7 @@ class PreGameItem():
             self.player_icon_position = (self.display_width / 2 - self.player_icon.get_rect().width / 2, self.pos_y)
 
         # Input-Zeile
-        self.input_font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
+        self.input_font = pygame.font.Font(FONT, self.font_size)
         self.input = Label(self.input_format % self.input_text, self.input_font, (68, 68, 68), (255, 255, 255))
 
         self.input.set_position(

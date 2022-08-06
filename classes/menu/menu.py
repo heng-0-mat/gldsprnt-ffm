@@ -6,7 +6,7 @@ import time
 import math
 
 from classes.menu.menu_item import MenuItem
-from config import FONT, FONT_MENU
+from config import FONT, FONT_MENU, IMG_BG_MENU
 
 class Menu():
     # Dauer der Animation in Millisekunden
@@ -21,6 +21,13 @@ class Menu():
         if self.font_size * len(items) > self.screen_height:
             self.font_size = self.screen_height / (len(items) + 1)
         self.font = pygame.font.Font(FONT_MENU, self.font_size)
+
+        # Background
+        self.bg_image = pygame.transform.smoothscale(
+            pygame.image.load(IMG_BG_MENU),
+            self.screen_width, self.screen_height)
+        )
+
         self.items = []
         self.current_item = 0
         self.animating = False
@@ -40,6 +47,8 @@ class Menu():
             self.items.append(menu_item)
 
     def render(self, deltat):
+        self.screen.blit(self.bg_image, (0,0))
+
         # Farben zurücksetzen
         for item in self.items:
             #item.set_font_color((255, 255, 255))
