@@ -6,7 +6,7 @@ import time
 import math
 
 from classes.menu.menu_item import MenuItem
-
+from config import FONT, FONT_MENU
 
 class Menu():
     # Dauer der Animation in Millisekunden
@@ -20,7 +20,7 @@ class Menu():
         self.font_size = round(screen.get_height() / 10)
         if self.font_size * len(items) > self.screen_height:
             self.font_size = self.screen_height / (len(items) + 1)
-        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.font_size)
+        self.font = pygame.font.Font(FONT_MENU, self.font_size)
         self.items = []
         self.current_item = 0
         self.animating = False

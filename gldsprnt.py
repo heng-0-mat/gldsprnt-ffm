@@ -5,9 +5,6 @@ import pygame
 
 from classes.gldsprnt import Gldsprnt
 
-PATH_FONT='fonts/UbuntuMono.ttf'
-
-
 clock = pygame.time.Clock()
 
 def main():
