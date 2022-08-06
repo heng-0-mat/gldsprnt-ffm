@@ -25,7 +25,7 @@ class Menu():
         # Background
         self.bg_image = pygame.transform.smoothscale(
             pygame.image.load(IMG_BG_MENU),
-            self.screen_width, self.screen_height)
+            self.screen_width, self.screen_height
         )
 
         self.items = []
