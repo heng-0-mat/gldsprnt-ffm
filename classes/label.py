@@ -42,6 +42,7 @@ class Label():
             label_icon_size = label_text.get_rect().height
             label_icon_width = 10
         label_box = Surface((label_text.get_rect().width + label_icon_size + label_icon_width + 40, label_text.get_rect().height + 20))
+        label_box.set_alpha(64)
         if self.bg_color is not None:
             label_box.fill(self.bg_color)
         if self.icon == '':
