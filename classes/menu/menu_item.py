@@ -91,6 +91,7 @@ class MenuItem():
     def create_label(self, font_color, box_color):
         label_box = Surface((self.label_text.get_rect().width + 40, self.label_text.get_rect().height + 10))
         label_box.fill(box_color)
+        label_box.set_alpha(64)
         self.set_font_color(font_color)
         label_box.blit(self.label_text, (20, 5))
         return label_box
