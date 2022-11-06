@@ -5,6 +5,7 @@ import pygame
 from classes.race.race import Race
 from classes.race.arm.player_arm import PlayerARM
 
+from config import ARM_PIN_PLAYER_1, ARM_PIN_PLAYER_2, IMG_BG_PLAYER_1, IMG_BG_PLAYER_2
 
 class RaceARM(Race):
 
@@ -20,8 +21,8 @@ class RaceARM(Race):
                 0,
                 self.race_length,
                 self.diameter,
-                19,
-                'bg_1'
+                PIN_PLAYER_1,
+                IMG_BG_PLAYER_1
             )
         )
         self.players.append(
@@ -33,8 +34,8 @@ class RaceARM(Race):
                 self.screen_height / 2,
                 self.race_length,
                 self.diameter,
-                21,
-                'bg_2'
+                PIN_PLAYER_2,
+                IMG_BG_PLAYER_2
             )
         )
 
