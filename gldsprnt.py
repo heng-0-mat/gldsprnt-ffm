@@ -5,7 +5,7 @@ import pygame
 
 from classes.gldsprnt import Gldsprnt
 
-from config import LOOP_DELTA_T,
+from config import LOOP_DELTA_T
 
 clock = pygame.time.Clock()
 
