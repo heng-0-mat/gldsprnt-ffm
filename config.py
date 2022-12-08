@@ -10,7 +10,7 @@ IMG_BG_PLAYER_1 = 'bicycle_blue'
 IMG_BG_PLAYER_2 = 'bicycle_yellow'
 
 IMG_PROGRESS_PLAYER_1 = 'bg_1'
-IMG_PROGRESS_PLAYER_2 = 'bg_yellow_384'
+IMG_PROGRESS_PLAYER_2 = 'bg_yellow'
 
 ARM_PIN_PLAYER_1 = 19
 ARM_PIN_PLAYER_2 = 21
