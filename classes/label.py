@@ -5,6 +5,7 @@ import pygame
 import os
 from pygame import Surface, Color
 
+from config import BOX_ALPHA
 
 class Label():
 
@@ -42,7 +43,7 @@ class Label():
             label_icon_size = label_text.get_rect().height
             label_icon_width = 10
         label_box = Surface((label_text.get_rect().width + label_icon_size + label_icon_width + 40, label_text.get_rect().height + 20))
-        label_box.set_alpha(64)
+        label_box.set_alpha(BOX_ALPHA)
         if self.bg_color is not None:
             label_box.fill(self.bg_color)
         if self.icon == '':
@@ -50,7 +51,7 @@ class Label():
         else:
             label_icon = pygame.transform.smoothscale(pygame.image.load(os.path.join('icons', '%s.png' % self.icon)), (label_icon_size, label_icon_size))
             # add transparent background box
-            label_box.set_alpha(128)
+            label_box.set_alpha(BOX_ALPHA)
             label_box.blit(label_icon, (20, 10))
             label_box.blit(label_text, (label_icon_size + label_icon_width + 20, 10))
         return label_box

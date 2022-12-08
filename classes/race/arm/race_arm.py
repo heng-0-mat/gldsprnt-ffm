@@ -5,7 +5,7 @@ import pygame
 from classes.race.race import Race
 from classes.race.arm.player_arm import PlayerARM
 
-from config import ARM_PIN_PLAYER_1, ARM_PIN_PLAYER_2, IMG_PROGRESS_PLAYER_1, IMG_PROGRESS_PLAYER_2
+from config import ARM_PIN_PLAYER_1, ARM_PIN_PLAYER_2, IMG_PROGRESS_PLAYER_1, IMG_PROGRESS_PLAYER_2, FONT_COLOR_PLAYER_1, FONT_COLOR_PLAYER_2
 
 class RaceARM(Race):
 
@@ -16,7 +16,7 @@ class RaceARM(Race):
             PlayerARM(
                 self.screen,
                 players[0],
-                (255, 0, 0),
+                FONT_COLOR_PLAYER_1,
                 0,
                 0,
                 self.race_length,
@@ -29,7 +29,7 @@ class RaceARM(Race):
             PlayerARM(
                 self.screen,
                 players[1],
-                (0, 0, 255),
+                FONT_COLOR_PLAYER_2,
                 0,
                 self.screen_height / 2,
                 self.race_length,
