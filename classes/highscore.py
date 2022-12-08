@@ -7,7 +7,7 @@ from pygame import Surface
 from classes.label import Label
 import classes.helpers as helpers
 
-from config import FONT_HIGHSCORE,
+from config import FONT_HIGHSCORE
 
 
 class Highscore():
