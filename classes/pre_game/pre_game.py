@@ -58,7 +58,7 @@ class PreGame():
             pre_game_item.render(deltat)
 
     def handle_keypress(self, event):
-        if event.unicode.isalpha():
+        if event.unicode.isalnum():
             self.pre_game_items[self.active_input].append_key(event.unicode)
         elif event.key == pygame.K_BACKSPACE:
             self.pre_game_items[self.active_input].delete_last_char()
