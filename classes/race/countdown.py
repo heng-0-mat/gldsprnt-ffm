@@ -7,6 +7,8 @@ import time
 
 from classes.label import Label
 
+from config import FONT_COUNTDOWN
+
 
 class Countdown():
 
@@ -15,7 +17,7 @@ class Countdown():
         self.screen = screen
         self.screen_width = screen.get_rect().width
         self.screen_height = screen.get_rect().height
-        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', self.screen_height)
+        self.font = pygame.font.Font(FONT_COUNTDOWN, self.screen_height)
         self.start_time = None
         self.running = False
         self.actions = actions

@@ -10,6 +10,8 @@ from classes.label import Label
 from classes.race.progress import Progress
 from classes.race.speedo import Speedo
 
+from config import FONT_PLAYER, ICON_TIME
+
 
 class Player():
 
@@ -18,7 +20,7 @@ class Player():
         self.screen_width = screen.get_rect().width
         self.screen_height = screen.get_rect().height
 
-        self.font = pygame.font.Font('fonts/UbuntuMono.ttf', round(self.screen_height / 12))
+        self.font = pygame.font.Font(FONT_PLAYER, round(self.screen_height / 12))
 
         self.race_length = race_length
         self.diameter = diameter
@@ -55,7 +57,7 @@ class Player():
         self.winner_ticker = 600
 
         # Time
-        self.time_label = Label(self.current_time_text, self.font, (68, 68, 68), (255, 255, 255), (0, 0), 'time-grey')
+        self.time_label = Label(self.current_time_text, self.font, (68, 68, 68), (255, 255, 255), (0, 0), ICON_TIME)
         self.time_label.set_position(
             self.pos_x + self.screen_width - self.time_label.width - self.screen_width / 60,
             self.pos_y + self.time_label.height + self.screen_width / 60 + self.screen_width / 60

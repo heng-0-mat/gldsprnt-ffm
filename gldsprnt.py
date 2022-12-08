@@ -5,6 +5,8 @@ import pygame
 
 from classes.gldsprnt import Gldsprnt
 
+from config import LOOP_DELTA_T,
+
 clock = pygame.time.Clock()
 
 def main():
@@ -13,7 +15,7 @@ def main():
 
     # Event loop
     while 1:
-        deltat = clock.tick(60)
+        deltat = clock.tick(LOOP_DELTA_T)
 
         instance.update(deltat)
         instance.render(deltat)

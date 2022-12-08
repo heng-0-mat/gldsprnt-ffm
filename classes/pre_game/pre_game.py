@@ -4,6 +4,8 @@
 import pygame
 from classes.pre_game.pre_game_item import PreGameItem
 
+from config import IMG_BG_PLAYER_1, IMG_BG_PLAYER_2,
+
 class PreGame():
     def __init__(self, screen, actions, players):
         # Screen für Instanz definieren
@@ -24,17 +26,17 @@ class PreGame():
         self.pre_game_items = [
             PreGameItem(
                 self.screen,
-                {'description': 'Spieler 1:'},
+                {'description': 'Player 1:'},
                 0,
                 0,
-                'bike-red-c'
+                IMG_BG_PLAYER_1
             ),
             PreGameItem(
                 self.screen,
-                {'description': 'Spieler 2:'},
+                {'description': 'Player 2:'},
                 0,
                 self.screen_height / 2,
-                'bike-blue-c'
+                IMG_BG_PLAYER_2
             )
         ]
 
