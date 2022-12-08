@@ -4,7 +4,7 @@
 import pygame
 from classes.pre_game.pre_game_item import PreGameItem
 
-from config import IMG_BG_PLAYER_1, IMG_BG_PLAYER_2,
+from config import IMG_BG_PLAYER_1, IMG_BG_PLAYER_2
 
 class PreGame():
     def __init__(self, screen, actions, players):
