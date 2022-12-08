@@ -21,7 +21,7 @@ class RaceARM(Race):
                 0,
                 self.race_length,
                 self.diameter,
-                PIN_PLAYER_1,
+                ARM_PIN_PLAYER_1,
                 IMG_PROGRESS_PLAYER_1
             )
         )
@@ -34,7 +34,7 @@ class RaceARM(Race):
                 self.screen_height / 2,
                 self.race_length,
                 self.diameter,
-                PIN_PLAYER_2,
+                ARM_PIN_PLAYER_2,
                 IMG_PROGRESS_PLAYER_2
             )
         )
