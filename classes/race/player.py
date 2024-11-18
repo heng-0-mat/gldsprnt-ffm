@@ -32,6 +32,8 @@ class Player():
 
         self.event_count = 0
         self.full_ticks = (self.race_length * 100) / self.diameter
+        self.countdown = False
+        self.falseStart = False
         self.running = False
         self.finished = False
         self.start_time = time.time()
@@ -107,6 +109,8 @@ class Player():
                 self.avg_speed = (self.race_length * 3.6) / self.finish_time
                 self.speedo.set_avg_speed(self.avg_speed)
                 self.time_label.set_text(self.format_time(self.finish_time))
+        elif (self.countdown and ticks > 0):
+            self.falseStart = True
         self.speedo.set_current_speed(ticks)
 
     def set_start_time(self, start_time):

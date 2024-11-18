@@ -3,9 +3,12 @@
 
 
 import pygame
+import parallel
 
 from classes.race.race import Race
-from classes.race.player import Player
+from classes.race.x86.player_x86 import PlayerX86
+
+from config import X86_PARFUNC_PLAYER_1, X86_PARFUNC_PLAYER_2, IMG_PROGRESS_PLAYER_1, IMG_PROGRESS_PLAYER_2, FONT_COLOR_PLAYER_1, FONT_COLOR_PLAYER_2, X86_DEV_PARPORT
 
 
 class RaceX86(Race):
@@ -13,30 +16,37 @@ class RaceX86(Race):
     def __init__(self, screen, players, race_length, diameter, actions):
         Race.__init__(self, screen, race_length, diameter, actions)
 
+        self.parport = parallel.Parallel(X86_DEV_PARPORT)
+
         self.players.append(
-            Player(
+            PlayerX86(
                 self.screen,
                 players[0],
-                (255, 30, 30),
+                FONT_COLOR_PLAYER_1,
                 0,
                 0,
                 self.race_length,
                 self.diameter,
-                'bg_1'
+                self.parport,
+                X86_PARFUNC_PLAYER_1,
+                IMG_PROGRESS_PLAYER_1
             )
         )
         self.players.append(
-            Player(
+            PlayerX86(
                 self.screen,
                 players[1],
-                (30, 30, 255),
+                FONT_COLOR_PLAYER_2,
                 0,
                 self.screen_height / 2,
                 self.race_length,
                 self.diameter,
-                'bg_2'
+                self.parport,
+                X86_PARFUNC_PLAYER_2,
+                IMG_PROGRESS_PLAYER_2
             )
         )
+        print("x86")
 
     def handle_input_data(self, event):
         # Race-Methode ausführen
@@ -53,3 +63,9 @@ class RaceX86(Race):
                 self.players[0].handle_progress(1)
             elif event.key == pygame.K_b:
                 self.players[1].handle_progress(1)
+
+    def __del__(self):
+        try:
+            self.parport.__del__()
+        except OSError:
+            print("Error while releasing Parallel Port")

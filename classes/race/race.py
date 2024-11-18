@@ -45,6 +45,10 @@ class Race():
             player.update(deltat)
         if self.race_status == 'COUNTDOWN':
             self.countdown.update(deltat)
+            if self.players[0].falseStart:
+                self.interrupt_countdown(self.players[0])
+            elif self.players[1].falseStart:
+                self.interrupt_countdown(self.players[1])
         if self.race_status == 'RUNNING':
             if self.players[0].finished and self.players[1].finished:
                 self.finish_race()
@@ -75,6 +79,8 @@ class Race():
                 self.information_label.set_text(' ')
                 self.set_race_status('COUNTDOWN')
                 self.countdown.start()
+                for player in self.players:
+                    player.countdown = True
         if self.race_status == 'FINISHED':
             if event.key == pygame.K_RETURN:
                 self.actions['success']()
@@ -100,6 +106,7 @@ class Race():
         start_time = time.time()
         # Startzeiten an Player übermitteln
         for player in self.players:
+            player.countdown = False
             player.running = True
             player.set_start_time(start_time)
 
@@ -112,6 +119,9 @@ class Race():
             (self.screen_width / 2) - (self.information_label.width / 2),
             (self.screen_height - self.information_label.height)
         )
+        for player in self.players:
+            player.countdown = False
+            player.falseStart = False
 
     def finish_race(self):
         self.information_label.set_text(u'Weiter mit Return …')

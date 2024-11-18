@@ -48,7 +48,7 @@ class Gldsprnt():
 
         # Goldsprint Einstellungen
         # self.player_count = 2
-        self.race_length_values = [10, 100, 200, 250, 500, 1000]
+        self.race_length_values = [50, 100, 200, 250, 500, 1000]
         self.race_length = self.race_length_values[3]
         self.diameter = 32.3
 
@@ -108,6 +108,8 @@ class Gldsprnt():
         self.options_menu.current_item = 0
 
     def load_main_menu(self):
+        if self.race is not None:
+            self.race.__del__() # free port device
         self.set_gamestate("MENU")
         self.active_menu = self.main_menu
 

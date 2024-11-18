@@ -2,7 +2,7 @@
 # !/usr/bin/python
 
 from classes.race.player import Player
-from classes.race.arm.bike_observer import BikeObserver
+from classes.race.arm.bike_observer_arm import BikeObserverARM
 
 
 class PlayerARM(Player):
@@ -13,7 +13,7 @@ class PlayerARM(Player):
 
         # Port festlegen und GPIO aktivieren
         self.gpio_port = gpio_port
-        self.bike_observer = BikeObserver(self.gpio_port)
+        self.bike_observer = BikeObserverARM(self.gpio_port)
 
     def update(self, deltat):
         Player.handle_progress(self, self.bike_observer.read_count())

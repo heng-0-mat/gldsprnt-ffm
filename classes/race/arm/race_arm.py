@@ -44,6 +44,12 @@ class RaceARM(Race):
             if event.key == pygame.K_ESCAPE:
                 for player in self.players:
                     player.bike_observer.stop_listening()
+        if self.race_status == 'COUNTDOWN':
+            if event.key == pygame.K_a:
+                self.interrupt_countdown(self.players[0])
+            elif event.key == pygame.K_b:
+                self.interrupt_countdown(self.players[1])
+                    
         Race.handle_input_data(self, event)
 
     def finish_race(self):
