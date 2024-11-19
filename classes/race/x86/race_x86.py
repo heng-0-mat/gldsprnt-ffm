@@ -17,6 +17,7 @@ class RaceX86(Race):
         Race.__init__(self, screen, race_length, diameter, actions)
 
         self.parport = parallel.Parallel(X86_DEV_PARPORT)
+        self.parport.setData(0xFF) # supply voltage for sensor -> better get 5V from USB
 
         self.players.append(
             PlayerX86(
